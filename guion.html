@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIKI — Guión</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:    #F9F7F2;
+      --paper: #FFFFFF;
+      --ink:   #1A1814;
+      --muted: #6B6760;
+      --line:  #E4E1D8;
+      --b1:    #C9435F;
+      --b2:    #257A56;
+      --b3:    #4244A8;
+      --b4:    #8E32B0;
+      --gold:  #A8780F;
+      --ok:    #1E7D4F;
+      --warn:  #B85C00;
+
+      /* colores por autor */
+      --lina:   #C9435F;
+      --murillo:#4244A8;
+      --german: #257A56;
+      --seled:  #8E32B0;
+      --alan:   #A8780F;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(249,247,242,0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      padding: 0 20px; height: 48px;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .nav-brand { font-family:'Playfair Display',serif; font-weight:900; font-size:16px; color:var(--ink); margin-right:auto; }
+    .nav-brand em { font-style:italic; color:var(--gold); }
+    nav a { font-size:12px; font-weight:500; color:var(--muted); text-decoration:none; padding:4px 10px; border-radius:6px; transition:background .15s,color .15s; white-space:nowrap; }
+    nav a:hover { background:var(--line); color:var(--ink); }
+    .nav-modo-btn {
+      margin-left:8px;
+      background: var(--ink); color: white;
+      border: none; border-radius: 6px;
+      padding: 5px 12px; font-size: 12px; font-weight: 600;
+      cursor: pointer; transition: background .15s;
+    }
+    .nav-modo-btn:hover { background: #333; }
+    .nav-modo-btn.aprobador { background: var(--ok); }
+    @media(max-width:560px){ nav a { display:none; } }
+
+    /* ── PORTADA ── */
+    .portada {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: flex-end; align-items: center;
+      text-align: center; padding: 0 24px 60px;
+      border-bottom: 1px solid var(--line);
+      position: relative; overflow: hidden;
+    }
+    .portada-img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
+    }
+    .portada-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(249,247,242,0) 0%,
+        rgba(249,247,242,0.1) 40%,
+        rgba(249,247,242,0.85) 70%,
+        rgba(249,247,242,1) 100%
+      );
+    }
+    .portada-content {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column;
+      align-items: center;
+    }
+    .portada-eyebrow { font-size:11px; font-weight:600; letter-spacing:0.16em; text-transform:uppercase; color:var(--gold); margin-bottom:16px; }
+    .portada h1 { font-family:'Playfair Display',serif; font-size:clamp(80px,18vw,180px); font-weight:900; line-height:0.88; color:var(--ink); margin-bottom:16px; }
+    .portada h1 em { font-style:italic; color:var(--gold); }
+    .portada-sub { font-size:15px; color:var(--muted); margin-bottom:32px; line-height:1.7; }
+    .portada-meta { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:48px; }
+    .pmeta { background:white; border:1px solid var(--line); border-radius:8px; padding:8px 16px; font-size:13px; color:var(--muted); }
+    .pmeta strong { color:var(--ink); font-weight:600; margin-right:4px; }
+    .portada-bloques { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
+    .pb { padding:6px 14px; border-radius:100px; font-size:12px; font-weight:600; border:1px solid; text-decoration:none; }
+    .pb1 { background:rgba(201,67,95,0.08); border-color:rgba(201,67,95,0.25); color:var(--b1); }
+    .pb2 { background:rgba(37,122,86,0.08); border-color:rgba(37,122,86,0.25); color:var(--b2); }
+    .pb3 { background:rgba(66,68,168,0.08); border-color:rgba(66,68,168,0.25); color:var(--b3); }
+    .pb4 { background:rgba(142,50,176,0.08); border-color:rgba(142,50,176,0.25); color:var(--b4); }
+
+    /* ── GUIÓN LAYOUT ── */
+    .guion { max-width: 1280px; margin: 0 auto; padding: 0 48px 120px; display: grid; grid-template-columns: 1fr 320px; gap: 0 40px; align-items: start; }
+    .guion-main { min-width: 0; }
+    .notas-panel { position: sticky; top: 64px; max-height: calc(100vh - 80px); overflow-y: auto; }
+    @media(max-width:1024px){ .guion { padding: 0 32px 100px; gap: 0 28px; } }
+    @media(max-width:780px){ .guion { grid-template-columns: 1fr; padding: 0 20px 80px; } .notas-panel { position:static; margin-top: 40px; } }
+
+    /* ── BLOQUE SECTION ── */
+    .bloque-section { padding-top: 80px; }
+    .bloque-header { display:flex; align-items:flex-start; gap:16px; padding-bottom:24px; border-bottom:2px solid; margin-bottom:44px; }
+    .bh-stripe { width:4px; border-radius:4px; align-self:stretch; min-height:44px; flex-shrink:0; }
+    .bh-num { font-size:10px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; margin-bottom:3px; }
+    .bh-titulo { font-family:'Playfair Display',serif; font-size:30px; font-weight:700; line-height:1.15; }
+    .bh-sensor { margin-left:auto; text-align:right; flex-shrink:0; }
+    .bh-emoji { font-size:26px; display:block; }
+    .bh-sentido { font-size:10px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); }
+    .bh-valor { font-size:12px; font-weight:500; color:var(--ink); }
+    .b1 .bh-stripe{background:var(--b1)} .b1 .bloque-header{border-color:rgba(201,67,95,0.15)} .b1 .bh-num{color:var(--b1)}
+    .b2 .bh-stripe{background:var(--b2)} .b2 .bloque-header{border-color:rgba(37,122,86,0.15)} .b2 .bh-num{color:var(--b2)}
+    .b3 .bh-stripe{background:var(--b3)} .b3 .bloque-header{border-color:rgba(66,68,168,0.15)} .b3 .bh-num{color:var(--b3)}
+    .b4 .bh-stripe{background:var(--b4)} .b4 .bloque-header{border-color:rgba(142,50,176,0.15)} .b4 .bh-num{color:var(--b4)}
+    .bp .bh-stripe{background:var(--gold)} .bp .bloque-header{border-color:rgba(168,120,15,0.15)} .bp .bh-num{color:var(--gold)}
+
+    /* ── CAPA LABEL ── */
+    .capa-label { display:inline-flex; align-items:center; gap:6px; font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:12px; padding:3px 9px; border-radius:4px; }
+    .capa-cine  { background:rgba(26,24,20,0.06); color:var(--ink); }
+    .capa-coreo { background:rgba(66,68,168,0.08); color:var(--b3); }
+    .capa-foto  { background:rgba(142,50,176,0.08); color:var(--b4); }
+    .capa-proy  { background:rgba(37,122,86,0.08); color:var(--b2); }
+    .capa-trans { background:rgba(168,120,15,0.08); color:var(--gold); }
+
+    /* ── LÍNEA DE GUIÓN (anotable) ── */
+    .escena { margin-bottom: 44px; }
+    .escena-slug { font-family:'Courier Prime',monospace; font-size:13px; font-weight:700; text-transform:uppercase; color:var(--ink); margin-bottom:16px; padding-bottom:10px; border-bottom:1px solid var(--line); letter-spacing:0.04em; }
+
+    .linea {
+      position: relative;
+      font-family: 'Courier Prime', monospace;
+      font-size: 15px; color: var(--ink); line-height: 2;
+      margin-bottom: 4px; padding: 8px 40px 8px 14px;
+      border-radius: 6px; border: 1px solid transparent;
+      transition: background .2s, border-color .2s, box-shadow .2s;
+      cursor: default;
+    }
+    .linea:hover { background: rgba(168,120,15,0.04); border-color: rgba(168,120,15,0.15); }
+    .linea em { font-style:italic; color:var(--muted); }
+    .linea strong { font-weight:700; }
+
+    /* Estados de línea — como Google Docs / Final Draft */
+    .linea.nota-pendiente  { background: rgba(200,150,31,0.10); border-color: rgba(200,150,31,0.45); border-left-width: 3px; cursor: pointer; }
+    .linea.nota-reescribir { background: rgba(66,68,168,0.09);  border-color: rgba(66,68,168,0.40);  border-left-width: 3px; cursor: pointer; }
+    .linea.nota-incorporar { background: rgba(30,125,79,0.08);  border-color: rgba(30,125,79,0.35);  border-left-width: 3px; cursor: pointer; }
+    .linea.nota-rechazado  { background: rgba(107,103,96,0.06); border-color: rgba(107,103,96,0.25); border-left-width: 3px; opacity: 0.65; cursor: pointer; }
+
+    .linea.nota-pendiente:hover  { background: rgba(200,150,31,0.16); box-shadow: 0 2px 8px rgba(200,150,31,0.2); }
+    .linea.nota-reescribir:hover { background: rgba(66,68,168,0.15);  box-shadow: 0 2px 8px rgba(66,68,168,0.2); }
+    .linea.nota-incorporar:hover { background: rgba(30,125,79,0.14);  box-shadow: 0 2px 8px rgba(30,125,79,0.2); }
+
+    .linea.linea-activa { box-shadow: 0 0 0 2px var(--gold) !important; }
+
+    .linea-add-btn {
+      position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--gold); color: white; border: none;
+      font-size: 14px; font-weight: 600; line-height: 1;
+      cursor: pointer; opacity: 0; transition: opacity .15s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .linea:hover .linea-add-btn { opacity: 1; }
+    .linea.nota-pendiente .linea-add-btn,
+    .linea.nota-reescribir .linea-add-btn,
+    .linea.nota-incorporar .linea-add-btn { opacity: 0.5; }
+
+    .foto-list { list-style:none; display:flex; flex-direction:column; gap:8px; margin-top:8px; padding-left: 14px; }
+    .foto-list li { font-family:'Courier Prime',monospace; font-size:15px; color:var(--ink); display:flex; gap:12px; align-items:flex-start; line-height:1.75; }
+    .foto-list li::before { content:'—'; color:var(--muted); flex-shrink:0; }
+
+    .proyeccion { background:var(--ink); color:white; border-radius:10px; padding:24px 28px; font-family:'Courier Prime',monospace; font-size:15px; line-height:1.9; margin:8px 0; }
+    .proyeccion em { color:rgba(255,255,255,0.45); font-style:italic; }
+
+    .nota-prod { background:white; border:1px solid var(--line); border-left:3px solid var(--gold); border-radius:0 8px 8px 0; padding:12px 16px; margin:20px 0; font-size:13px; color:var(--muted); line-height:1.65; }
+    .nota-prod strong { color:var(--ink); font-weight:600; }
+
+    .bloque-div { border:none; border-top:1px solid var(--line); margin:0; }
+
+    .wip-block { background:rgba(201,67,95,0.04); border:1px dashed rgba(201,67,95,0.25); border-radius:10px; padding:24px; text-align:center; color:var(--muted); font-size:14px; font-style:italic; margin-top:8px; }
+
+    /* ── PANEL DE NOTAS (sidebar) ── */
+    .notas-panel-inner {
+      background: white; border: 1px solid var(--line);
+      border-radius: 12px; overflow: hidden;
+    }
+    .np-header {
+      padding: 14px 16px; border-bottom: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .np-title { font-size: 13px; font-weight: 700; color: var(--ink); }
+    .np-count { font-size: 11px; color: var(--muted); }
+    .np-lista { display: flex; flex-direction: column; gap: 0; max-height: 400px; overflow-y: auto; }
+    .np-empty { padding: 24px 16px; text-align: center; font-size: 13px; color: var(--muted); font-style: italic; }
+
+    .np-nota {
+      padding: 12px 14px; border-bottom: 1px solid var(--line);
+      font-size: 13px; line-height: 1.55;
+    }
+    .np-nota:last-child { border-bottom: none; }
+    .np-nota-head { display:flex; align-items:center; gap:6px; margin-bottom:5px; }
+    .np-autor {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 2px 7px; border-radius: 4px; color: white;
+    }
+    .autor-Lina    { background: var(--lina); }
+    .autor-Murillo { background: var(--murillo); }
+    .autor-German  { background: var(--german); }
+    .autor-Seled   { background: var(--seled); }
+    .autor-Alan    { background: var(--alan); }
+    .np-tipo { font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+    .np-texto { color: var(--ink2, #3D3A34); margin-bottom: 6px; }
+    .np-propuesto { background: var(--bg, #F9F7F2); border-left: 2px solid var(--gold); padding: 6px 10px; border-radius: 0 4px 4px 0; font-family:'Courier Prime',monospace; font-size:12px; color:var(--muted); margin-bottom:8px; }
+    .np-acciones { display: flex; gap: 6px; }
+    .np-btn {
+      font-size: 11px; font-weight: 600; padding: 3px 10px;
+      border-radius: 4px; border: 1px solid; cursor: pointer;
+      transition: background .15s;
+    }
+    .np-btn.aprobar { background:rgba(30,125,79,0.08); border-color:rgba(30,125,79,0.25); color:var(--ok); }
+    .np-btn.aprobar:hover { background:var(--ok); color:white; }
+    .np-btn.rechazar { background:rgba(201,67,95,0.08); border-color:rgba(201,67,95,0.25); color:var(--b1); }
+    .np-btn.rechazar:hover { background:var(--b1); color:white; }
+    .np-btn.aprobado { background:rgba(30,125,79,0.1); border-color:rgba(30,125,79,0.2); color:var(--ok); cursor:default; }
+    .np-btn.rechazado { background:rgba(201,67,95,0.1); border-color:rgba(201,67,95,0.2); color:var(--b1); cursor:default; }
+
+    /* ── MODAL NUEVA NOTA ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: rgba(26,24,20,0.45); backdrop-filter: blur(4px);
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: white; border-radius: 14px;
+      width: 100%; max-width: 460px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+    .modal-header {
+      padding: 16px 20px; border-bottom: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .modal-title { font-size: 15px; font-weight: 700; }
+    .modal-close { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--muted); line-height: 1; padding: 0 4px; }
+    .modal-body { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+    .modal-ref {
+      font-family: 'Courier Prime', monospace; font-size: 12px;
+      background: var(--bg); border: 1px solid var(--line);
+      border-radius: 6px; padding: 10px 12px; color: var(--muted);
+      line-height: 1.55; max-height: 72px; overflow: hidden;
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+    }
+    .form-row { display: flex; flex-direction: column; gap: 6px; }
+    .form-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    .form-select, .form-textarea {
+      width: 100%; padding: 9px 12px; border: 1px solid var(--line);
+      border-radius: 8px; font-family: 'Inter', sans-serif;
+      font-size: 14px; color: var(--ink); background: white;
+      transition: border-color .15s;
+      appearance: none;
+    }
+    .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--gold); }
+    .form-textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+    .form-textarea-sm { min-height: 60px; }
+    .modal-footer { padding: 0 20px 20px; display: flex; gap: 8px; justify-content: flex-end; }
+    .btn-cancelar { background: none; border: 1px solid var(--line); border-radius: 8px; padding: 8px 16px; font-size: 13px; font-weight: 500; color: var(--muted); cursor: pointer; }
+    .btn-enviar { background: var(--ink); color: white; border: none; border-radius: 8px; padding: 8px 20px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background .15s; }
+    .btn-enviar:hover { background: #333; }
+    .btn-enviar:disabled { background: var(--line); color: var(--muted); cursor: default; }
+
+    /* ── MODAL CORRECCIÓN ── */
+    .modal-correccion { max-width: 560px; }
+    .linea-original {
+      font-family: 'Courier Prime', monospace;
+      font-size: 13px; line-height: 1.7;
+      background: var(--bg); border: 1px solid var(--line);
+      border-radius: 6px; padding: 10px 12px; color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .linea-original strong { display:block; font-size:10px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-bottom:4px; }
+    .nota-equipo-ref {
+      font-size: 13px; color: var(--ink2, #3D3A34); line-height: 1.6;
+      background: rgba(200,150,31,0.06); border: 1px solid rgba(200,150,31,0.2);
+      border-radius: 6px; padding: 10px 12px;
+    }
+    .nota-equipo-ref strong { display:block; font-size:10px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); margin-bottom:4px; }
+    .form-textarea-guion {
+      font-family: 'Courier Prime', monospace !important;
+      min-height: 100px; font-size: 14px;
+    }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(60px);
+      background: var(--ink); color: white; border-radius: 100px;
+      padding: 10px 20px; font-size: 13px; font-weight: 500;
+      z-index: 300; transition: transform .3s ease;
+      white-space: nowrap;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* footer */
+    footer { text-align:center; padding:36px 24px; background:var(--ink); color:rgba(255,255,255,0.35); margin-top:80px; }
+    footer .ft { font-family:'Playfair Display',serif; font-size:18px; font-weight:900; color:white; display:block; margin-bottom:5px; }
+    footer .ft em { font-style:italic; color:var(--gold); }
+    footer small { font-size:12px; }
+    footer a { color:rgba(255,255,255,0.4); text-decoration:none; }
+    footer a:hover { color:white; }
+  </style>
+</head>
+<body>
+
+<!-- MODAL NUEVA NOTA -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Agregar nota al guión</div>
+      <button class="modal-close" onclick="cerrarModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div>
+        <div class="form-label" style="margin-bottom:6px;">Línea de referencia</div>
+        <div class="modal-ref" id="modalRef"></div>
+      </div>
+      <div class="form-row">
+        <label class="form-label">¿Quién eres?</label>
+        <select class="form-select" id="selectAutor">
+          <option value="">— Selecciona —</option>
+          <option value="Lina">Lina</option>
+          <option value="Murillo">Murillo</option>
+          <option value="German">Germán</option>
+          <option value="Seled">Seled</option>
+          <option value="Alan">Alan García</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Tipo de cambio</label>
+        <select class="form-select" id="selectTipo">
+          <option value="">— Selecciona —</option>
+          <option value="Agregar">Agregar — falta algo en esta línea</option>
+          <option value="Quitar">Quitar — esto sobra</option>
+          <option value="Cambiar">Cambiar — propongo otra versión</option>
+          <option value="Otro">Otro</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Tu nota o razón</label>
+        <textarea class="form-textarea form-textarea-sm" id="inputRazon" placeholder="Explica brevemente por qué..."></textarea>
+      </div>
+      <div class="form-row" id="rowPropuesto" style="display:none;">
+        <label class="form-label">Texto propuesto (opcional)</label>
+        <textarea class="form-textarea form-textarea-sm" id="inputPropuesto" placeholder="Escribe cómo quedaría la línea..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancelar" onclick="cerrarModal()">Cancelar</button>
+      <button class="btn-enviar" id="btnEnviar" onclick="enviarNota()">Enviar nota</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CORRECCIÓN -->
+<div class="modal-overlay" id="modalCorreccion">
+  <div class="modal modal-correccion">
+    <div class="modal-header">
+      <div class="modal-title" id="mcTitulo">Escribir corrección</div>
+      <button class="modal-close" onclick="cerrarCorreccion()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="linea-original">
+        <strong>Línea original del guión</strong>
+        <span id="mcLineaOriginal"></span>
+      </div>
+      <div class="nota-equipo-ref">
+        <strong>Nota del equipo</strong>
+        <span id="mcNotaEquipo"></span>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Versión corregida — en formato guión</label>
+        <textarea class="form-textarea form-textarea-guion" id="mcTextoCorregido" placeholder="Escribe aquí cómo queda la línea corregida..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancelar" onclick="cerrarCorreccion()">Cancelar</button>
+      <button class="btn-enviar" id="mcBtnGuardar" onclick="guardarCorreccion()">Guardar corrección</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">KI<em>KI</em> — Guión</div>
+  <a href="#b1">Bloque 1</a>
+  <a href="#b2">Bloque 2</a>
+  <a href="#b3">Bloque 3</a>
+  <a href="#b4">Bloque 4</a>
+  <button class="nav-modo-btn" id="btnModo" onclick="toggleModo()">Modo aprobador</button>
+</nav>
+
+<!-- PORTADA -->
+<div class="portada">
+  <img src="img/portada kiki.webp" alt="KIKI" class="portada-img">
+  <div class="portada-overlay"></div>
+  <div class="portada-content">
+    <div class="portada-eyebrow">Nébula Proyecto Artístico — Guión</div>
+    <h1>KI<em>KI</em></h1>
+    <p class="portada-sub">Producción interdisciplinaria e inmersiva<br>Música · Danza · Cine · Fotografía<br>Dirección: Lina Lorenzo</p>
+    <div class="portada-meta">
+      <div class="pmeta"><strong>Duración</strong> 60 min</div>
+      <div class="pmeta"><strong>Público</strong> 15+</div>
+      <div class="pmeta"><strong>Pre-Estreno</strong> Café literario</div>
+      <div class="pmeta"><strong>Versión</strong> Junio 2026</div>
+    </div>
+    <div class="portada-bloques">
+      <a href="#b1" class="pb pb1">01 · ¿Quién es Kiki?</a>
+      <a href="#b2" class="pb pb2">02 · La ciudad</a>
+      <a href="#b3" class="pb pb3">03 · Portal</a>
+      <a href="#b4" class="pb pb4">04 · Mundo paralelo</a>
+    </div>
+  </div>
+</div>
+
+<!-- GUIÓN + PANEL -->
+<div class="guion">
+<div class="guion-main">
+
+  <!-- ══ PRÓLOGO ══ -->
+  <div class="bloque-section bp" id="prologo">
+    <div class="bloque-header">
+      <div class="bh-stripe"></div>
+      <div><div class="bh-num">Prólogo</div><div class="bh-titulo">Inicio</div></div>
+    </div>
+    <div class="escena">
+      <div class="capa-label capa-cine">🎬 Escenario</div>
+      <div class="linea" data-id="pro-01">La baterista abre el escenario en solitario. Un solo de batería.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="pro-02">Mientras toca, el elenco completo va tomando su lugar en escena — uno a uno, presentándose ante el público.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="pro-03">El escenario se llena. El universo despierta.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="pro-04"><em>Esta es la invitación al público a sumergirse en lo que está por venir.</em><button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+    </div>
+  </div>
+
+  <hr class="bloque-div">
+
+  <!-- ══ BLOQUE 1 ══ -->
+  <div class="bloque-section b1" id="b1">
+    <div class="bloque-header">
+      <div class="bh-stripe"></div>
+      <div><div class="bh-num">Bloque 01</div><div class="bh-titulo">¿Quién es Kiki?</div></div>
+      <div class="bh-sensor"><span class="bh-emoji">🌹</span><span class="bh-sentido">Olfato</span><span class="bh-valor">Rosas</span></div>
+    </div>
+
+    <div class="escena">
+      <div class="capa-label capa-cine">🎬 Cinematográfico</div>
+      <div class="escena-slug">INT. CASA DE KIKI — TARDE</div>
+      <div class="linea" data-id="b1-01">Un cuadro cuelga en la pared de la entrada. Pintado a mano. En la esquina inferior, una firma.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b1-02">Debajo del cuadro, un florero. Una flor adentro — marchita.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b1-03">Kiki abre la puerta. Entra cargando cosas del trabajo. Al dejarlas en el mueble, su brazo roza el cuadro. Se ladea.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b1-04">Kiki lo endereza de manera automática — y en ese gesto lo ve.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b1-05">La mitad izquierda descolorida. Años de sol. Nadie lo había notado.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b1-06">Se aleja un paso. Mira la firma en la esquina.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b1-07"><em>Un momento.</em><button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b1-08">Su teléfono vibra. Contesta. Toma sus cosas y sale apresurada.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b1-09">El cuadro se queda torcido.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+    </div>
+
+    <div class="escena">
+      <div class="escena-slug">INT. CASA DE KIKI — MÁS TARDE</div>
+      <div class="linea" data-id="b1-10">La puerta se abre. Kiki entra. En la mano trae una flor.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b1-11">La deja en el mueble. Se queda parada frente al cuadro torcido. Lo acomoda.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b1-12">La cámara se desplaza — deja la puerta atrás, se centra en el cuadro.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b1-13">Kiki regresa al mueble. Toma la flor. Se agacha hacia el florero. Saca la flor marchita. La sostiene un momento.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b1-14">La cambia por la flor nueva. Da un paso atrás.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b1-15">El cuadro acomodado. El florero con la flor fresca. La firma en la esquina.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+    </div>
+
+    <div class="escena">
+      <div class="capa-label capa-trans">↝ Transición</div>
+      <div class="linea" data-id="b1-16">Fotografías del cuadro. Del florero. De la firma. De la flor marchita en su mano.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b1-17">Imágenes que mutan hacia el estilo cómic — el mundo real se convierte en ilustración.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+    </div>
+
+    <div class="nota-prod"><strong>Nota narrativa:</strong> El cuadro fue pintado por la mamá de Kiki. La firma no se explica en escena — el público la descubre al final. La mitad descolorida anticipa visualmente el mundo paralelo del Bloque 4.</div>
+    <div class="nota-prod" style="border-left-color:var(--b1)"><strong>Nota inmersiva — Olfato:</strong> Durante la entrega de flores al público en este bloque, se activa el aroma de rosas en el espacio escénico. El olfato es el primer detonante cognitivo de la función — conecta directamente con la memoria emocional del espectador.</div>
+  </div>
+
+  <hr class="bloque-div">
+
+  <!-- ══ BLOQUE 2 ══ -->
+  <div class="bloque-section b2" id="b2">
+    <div class="bloque-header">
+      <div class="bh-stripe"></div>
+      <div><div class="bh-num">Bloque 02</div><div class="bh-titulo">La ciudad y un guía espiritual</div></div>
+      <div class="bh-sensor"><span class="bh-emoji">🍵</span><span class="bh-sentido">Gusto</span><span class="bh-valor">Té verde</span></div>
+    </div>
+
+    <div class="escena">
+      <div class="capa-label capa-cine">🎬 Cinematográfico</div>
+      <div class="escena-slug">EXT/INT. LA CHINESCA — RESTAURANTES — DÍA</div>
+      <div class="linea" data-id="b2-01">Una hilera de restaurantes con la misma fachada. Puertas que se abren y cierran.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b2-02">Kiki entra por una. Sale por otra. Entra por una. Sale por otra.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b2-03">Su jefe aparece en el umbral — le carga los brazos con más cosas. Ella los toma sin detenerse.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b2-04">En ese vaivén, al cruzar una puerta, aparece el cocinero chino. Kiki pasa de largo. Él no dice nada.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b2-05">Cruza otra puerta. El cocinero está ahí de nuevo.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b2-06"><em>No es el mismo restaurante. Es el mismo hombre.</em><button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+    </div>
+
+    <div class="escena">
+      <div class="escena-slug">INT. COCINA — CONTINUO</div>
+      <div class="linea" data-id="b2-07">Toma desde el interior. En el lado izquierdo del cuadro: el cocinero, de pie, en silencio.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b2-08">La puerta del lado derecho se abre. Entra Kiki. Deja sus cosas sobre la mesa sin mirar.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b2-09">El cocinero tiene dos vasos frente a él — uno en cada mano. Se los ofrece.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b2-10">Kiki señala los dos con la mano.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b2-11">El cocinero niega con la cabeza. Despacio. <em>Este. O este.</em><button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b2-12">Kiki señala uno. El cocinero se lo da. Recoge el otro. Sale de cuadro.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b2-13">Kiki le da un trago al vaso. Se para frente a la puerta. Da la espalda a la cámara. Se queda quieta.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b2-14"><em>Fade a negro.</em><button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+    </div>
+
+    <div class="escena">
+      <div class="capa-label capa-proy">📽️ Proyección</div>
+      <div class="proyeccion">Agua verde. El color del té. Lenta, moviéndose.</div>
+    </div>
+
+    <div class="escena">
+      <div class="capa-label capa-coreo">💃 Coreografía — Escenario</div>
+      <div class="linea" data-id="b2-15">Kiki voltea hacia el dragón. Su cuerpo lo enfrenta pero su postura lo resiste — no hay rendición, hay conflicto.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+    </div>
+
+    <div class="escena">
+      <div class="capa-label capa-foto">📷 Foto fija</div>
+      <ul class="foto-list">
+        <li>Kiki de frente al dragón, contrariada, sin resolver</li>
+        <li>Kiki de espaldas mirando al dragón</li>
+        <li>Detalle: un cigarro consumiéndose — solo el humo y la brasa</li>
+        <li>El vaso de té verde sobre la mesa de la cocina</li>
+      </ul>
+    </div>
+
+    <div class="nota-prod"><strong>Nota:</strong> La frase del cocinero — <em>"No puedes guiar el viento, pero puedes cambiar la dirección de tus velas"</em> — se comunica con el gesto de los dos vasos, no con diálogo.</div>
+  </div>
+
+  <hr class="bloque-div">
+
+  <!-- ══ BLOQUE 3 ══ -->
+  <div class="bloque-section b3" id="b3">
+    <div class="bloque-header">
+      <div class="bh-stripe"></div>
+      <div><div class="bh-num">Bloque 03</div><div class="bh-titulo">Portal</div></div>
+      <div class="bh-sensor"><span class="bh-emoji">🏜️</span><span class="bh-sentido">Tacto</span><span class="bh-valor">Arena de La Salada</span></div>
+    </div>
+
+    <div class="escena">
+      <div class="capa-label capa-cine">🎬 Cinematográfico</div>
+      <div class="escena-slug">INT. BAR — NOCHE</div>
+      <div class="linea" data-id="b3-01">Kiki en una mesa, sola. Tiene una michelada frente a ella.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b3-02">Es su día libre. Escucha la música. Bebe despacio.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b3-03">La pantalla de su teléfono se enciende. Kiki lo lee. Lo deja boca abajo sobre la mesa.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b3-04">La pantalla se enciende de nuevo: <em>"Ya sé que es tu día de descanso pero me urge que me apoyes con lo que te pedí."</em><button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b3-05">Llamadas entrantes — una, dos, tres. La pantalla no para de encenderse.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b3-06">Kiki la ve encenderse. No contesta.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+    </div>
+
+    <div class="escena">
+      <div class="escena-slug">INT. BAR — CONTINUO</div>
+      <div class="linea" data-id="b3-07">Kiki levanta la vista hacia la rocola. Un álbum: diseño de desierto — arena, horizonte, luz baja.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b3-08">El nombre del álbum: <strong>NÉBULA.</strong><button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b3-09">Kiki se queda quieta mirándolo. La canción empieza a sonar.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b3-10"><em>Fade a fotografías.</em><button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+    </div>
+
+    <div class="escena">
+      <div class="capa-label capa-foto">📷 Foto fija</div>
+      <ul class="foto-list">
+        <li>Kiki iluminada por la luz de la rocola</li>
+        <li>La cerveza casi llena — dejó de beber cuando vio el álbum</li>
+        <li>El teléfono encendido con el mensaje del jefe</li>
+        <li>Letrero de salida del bar</li>
+        <li>La michelada sobre la mesa</li>
+      </ul>
+    </div>
+
+    <div class="escena">
+      <div class="capa-label capa-coreo">💃 Apoyo de coreografía</div>
+      <div class="linea" data-id="b3-11">Mientras suena la canción Nébula — entra coreografía de apoyo en tema desierto.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+      <div class="linea" data-id="b3-12">Apoyo visual: arena, pies, mesas, vasos. El desierto se filtra en el espacio del bar.<button class="linea-add-btn" onclick="abrirModal(this)">+</button></div>
+    </div>
+  </div>
+
+  <hr class="bloque-div">
+
+  <!-- ══ BLOQUE 4 ══ -->
+  <div class="bloque-section b4" id="b4">
+    <div class="bloque-header">
+      <div class="bh-stripe"></div>
+      <div><div class="bh-num">Bloque 04</div><div class="bh-titulo">Un mundo paralelo</div></div>
+      <div class="bh-sensor"><span class="bh-emoji">🍭</span><span class="bh-sentido">Gusto</span><span class="bh-valor">Paleta glitter rosa</span></div>
+    </div>
+    <div class="wip-block">Escenas en desarrollo — sesión activa junio 2026</div>
+  </div>
+
+</div><!-- /guion-main -->
+
+<!-- PANEL DE NOTAS -->
+<div class="notas-panel">
+  <div class="notas-panel-inner">
+    <div class="np-header">
+      <div class="np-title" id="npTitle">Notas del equipo</div>
+      <div class="np-count" id="notasCount">0 notas</div>
+    </div>
+    <div id="npFiltroBar" style="display:none; padding:8px 14px; border-bottom:1px solid var(--line); background:rgba(200,150,31,0.06);">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <span style="font-size:11px;font-weight:600;color:var(--gold);letter-spacing:0.08em;text-transform:uppercase;" id="npFiltroLabel">Línea seleccionada</span>
+        <button onclick="verTodas()" style="font-size:11px;font-weight:600;color:var(--muted);background:none;border:none;cursor:pointer;padding:2px 6px;border-radius:4px;" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--muted)'">← Ver todas</button>
+      </div>
+    </div>
+    <div class="np-lista" id="notasLista">
+      <div class="np-empty" id="npEmpty">Sin notas todavía.<br>Haz clic en <strong>+</strong> en cualquier línea.</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /guion -->
+
+<footer>
+  <span class="ft">KI<em>KI</em></span>
+  Nébula Proyecto Artístico · Dirección: Lina Lorenzo<br>
+  <small style="margin-top:6px;display:block;">Guión en desarrollo · Versión junio 2026</small>
+</footer>
+
+<script>
+  const SUPABASE_URL = 'https://eocjqwlzvvebezrdfwrd.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVvY2pxd2x6dnZlYmV6cmRmd3JkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3OTYwNzcsImV4cCI6MjA5NjM3MjA3N30.t83ujOevDSexqBK9ZtRQ9EvhHwxOx-py8z4kSMlUFNE';
+  const SB_HEADERS = { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Prefer': 'return=representation' };
+
+  let notas = [];
+  let lineaActual = null;
+  let modoAprobador = false;
+
+  function parsearNota(n) {
+    return {
+      id:        n.id,
+      linea_id:  n.linea_id,
+      autor:     n.autor,
+      tipo:      n.tipo,
+      razon:     n.razon,
+      propuesto: n.texto_propuesto || '',
+      estado:    n.estado || 'pendiente',
+      fecha:     n.created_at
+                   ? new Date(n.created_at).toLocaleDateString('es-MX', {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'})
+                   : (n.fecha || '')
+    };
+  }
+
+  function guardarLocal(lista) {
+    localStorage.setItem('kiki_notas', JSON.stringify(lista));
+  }
+
+  /* ── CARGAR NOTAS ── */
+  async function cargarNotas() {
+    let cargado = false;
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/notas?order=created_at.asc`, { headers: SB_HEADERS });
+      if (res.ok) {
+        const data = await res.json();
+        notas = data.map(parsearNota);
+        guardarLocal(notas);
+        cargado = true;
+      }
+    } catch(e) {}
+
+    if (!cargado) {
+      notas = JSON.parse(localStorage.getItem('kiki_notas') || '[]');
+    }
+
+    notas.forEach(n => marcarLinea(n.linea_id));
+    renderNotas();
+  }
+
+  /* ── MODO APROBADOR ── */
+  function toggleModo() {
+    modoAprobador = !modoAprobador;
+    const btn = document.getElementById('btnModo');
+    btn.textContent = modoAprobador ? '✓ Modo aprobador' : 'Modo aprobador';
+    btn.classList.toggle('aprobador', modoAprobador);
+    renderNotas();
+  }
+
+  /* ── MODAL ── */
+  function abrirModal(btn) {
+    lineaActual = btn.closest('.linea');
+    document.getElementById('modalRef').textContent = lineaActual.textContent.replace('+','').trim();
+    document.getElementById('selectAutor').value = '';
+    document.getElementById('selectTipo').value = '';
+    document.getElementById('inputRazon').value = '';
+    document.getElementById('inputPropuesto').value = '';
+    document.getElementById('rowPropuesto').style.display = 'none';
+    document.getElementById('modalOverlay').classList.add('open');
+  }
+
+  function cerrarModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+    lineaActual = null;
+  }
+
+  document.getElementById('selectTipo').addEventListener('change', function() {
+    document.getElementById('rowPropuesto').style.display =
+      (this.value === 'Cambiar' || this.value === 'Agregar') ? 'flex' : 'none';
+  });
+
+  document.getElementById('modalOverlay').addEventListener('click', function(e) {
+    if (e.target === this) cerrarModal();
+  });
+
+  /* ── ENVIAR NOTA ── */
+  async function enviarNota() {
+    const autor     = document.getElementById('selectAutor').value;
+    const tipo      = document.getElementById('selectTipo').value;
+    const razon     = document.getElementById('inputRazon').value.trim();
+    const propuesto = document.getElementById('inputPropuesto').value.trim();
+
+    if (!autor || !tipo || !razon) { mostrarToast('Completa todos los campos'); return; }
+
+    const btn = document.getElementById('btnEnviar');
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+
+    /* Nota local inmediata para que aparezca sin esperar */
+    const notaLocal = {
+      id: Date.now(),
+      linea_id: lineaActual.dataset.id,
+      autor, tipo, razon,
+      propuesto,
+      estado: 'pendiente',
+      fecha: new Date().toLocaleDateString('es-MX',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})
+    };
+    notas.push(notaLocal);
+    guardarLocal(notas);
+    marcarLinea(notaLocal.linea_id);
+    renderNotas();
+    cerrarModal();
+    mostrarToast('Nota agregada ✓');
+
+    /* Sincronizar con Supabase en segundo plano */
+    try {
+      await fetch(`${SUPABASE_URL}/rest/v1/notas`, {
+        method: 'POST',
+        headers: SB_HEADERS,
+        body: JSON.stringify({ linea_id: notaLocal.linea_id, autor, tipo, razon, texto_propuesto: propuesto, estado: 'pendiente' })
+      });
+    } catch(e) { /* queda guardada localmente */ }
+
+    btn.disabled = false;
+    btn.textContent = 'Enviar nota';
+  }
+
+  /* ── MODAL CORRECCIÓN ── */
+  let notaEnRevision = null;
+
+  function abrirCorreccion(id, estadoDestino) {
+    notaEnRevision = { id, estadoDestino };
+    const nota = notas.find(n => n.id === id);
+    if (!nota) return;
+
+    const lineaEl = document.querySelector(`[data-id="${nota.linea_id}"]`);
+    const lineaTexto = lineaEl ? lineaEl.textContent.replace('+','').trim() : nota.linea_id;
+
+    document.getElementById('mcTitulo').textContent =
+      estadoDestino === 'reescribir' ? '✏ Reescribir línea' : '✓ Confirmar e incorporar';
+    document.getElementById('mcLineaOriginal').textContent = lineaTexto;
+    document.getElementById('mcNotaEquipo').textContent = nota.razon + (nota.propuesto ? ' — ' + nota.propuesto : '');
+    document.getElementById('mcTextoCorregido').value = '';
+    document.getElementById('mcTextoCorregido').placeholder =
+      estadoDestino === 'reescribir'
+        ? 'Escribe cómo queda la línea en formato guión...'
+        : 'Escribe la versión final que entrará al guión...';
+
+    document.getElementById('modalCorreccion').classList.add('open');
+    setTimeout(() => document.getElementById('mcTextoCorregido').focus(), 100);
+  }
+
+  function cerrarCorreccion() {
+    document.getElementById('modalCorreccion').classList.remove('open');
+    notaEnRevision = null;
+  }
+
+  document.getElementById('modalCorreccion').addEventListener('click', function(e) {
+    if (e.target === this) cerrarCorreccion();
+  });
+
+  async function guardarCorreccion() {
+    if (!notaEnRevision) return;
+    const corregido = document.getElementById('mcTextoCorregido').value.trim();
+    const { id, estadoDestino } = notaEnRevision;
+
+    notas = notas.map(n => n.id === id ? { ...n, estado: estadoDestino, corregido } : n);
+    guardarLocal(notas);
+    actualizarLineas();
+    renderNotas();
+    cerrarCorreccion();
+
+    try {
+      await fetch(`${SUPABASE_URL}/rest/v1/notas?id=eq.${id}`, {
+        method: 'PATCH', headers: SB_HEADERS,
+        body: JSON.stringify({ estado: estadoDestino, texto_propuesto: corregido || undefined })
+      });
+    } catch(e) {}
+
+    mostrarToast(estadoDestino === 'reescribir' ? '✏ Guardada para reescribir' : '✓ Corrección guardada');
+  }
+
+  /* ── CAMBIAR ESTADO (solo No aplica, sin corrección) ── */
+  async function cambiarEstado(id, estado) {
+    if (estado === 'reescribir' || estado === 'incorporar') {
+      abrirCorreccion(id, estado);
+      return;
+    }
+    notas = notas.map(n => n.id === id ? {...n, estado} : n);
+    guardarLocal(notas);
+    actualizarLineas();
+    renderNotas();
+    try {
+      await fetch(`${SUPABASE_URL}/rest/v1/notas?id=eq.${id}`, {
+        method: 'PATCH', headers: SB_HEADERS, body: JSON.stringify({ estado })
+      });
+    } catch(e) {}
+    mostrarToast('✕ Marcada como no aplica');
+  }
+
+  /* ── FILTRO POR LÍNEA ── */
+  let filtroLinea = null;
+
+  function verLinea(lineaId) {
+    filtroLinea = lineaId;
+    document.getElementById('npFiltroBar').style.display = '';
+    document.getElementById('npFiltroLabel').textContent = 'Línea ' + lineaId;
+    document.getElementById('npTitle').textContent = 'Notas de esta línea';
+    /* resaltar línea activa */
+    document.querySelectorAll('.linea').forEach(el => el.classList.remove('linea-activa'));
+    const el = document.querySelector(`[data-id="${lineaId}"]`);
+    if (el) { el.classList.add('linea-activa'); el.scrollIntoView({behavior:'smooth', block:'nearest'}); }
+    renderNotas();
+    /* scroll al panel */
+    document.querySelector('.notas-panel').scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  function verTodas() {
+    filtroLinea = null;
+    document.getElementById('npFiltroBar').style.display = 'none';
+    document.getElementById('npTitle').textContent = 'Notas del equipo';
+    document.querySelectorAll('.linea').forEach(el => el.classList.remove('linea-activa'));
+    renderNotas();
+  }
+
+  /* ── RENDER NOTAS ── */
+  function renderNotas() {
+    const lista  = document.getElementById('notasLista');
+    const empty  = document.getElementById('npEmpty');
+    const count  = document.getElementById('notasCount');
+
+    let visibles = notas.filter(n => n.estado !== 'rechazado');
+    if (filtroLinea) visibles = visibles.filter(n => n.linea_id === filtroLinea);
+
+    count.textContent = `${visibles.length} nota${visibles.length !== 1 ? 's' : ''}`;
+
+    if (visibles.length === 0) {
+      lista.innerHTML = '';
+      lista.appendChild(empty);
+      empty.style.display = '';
+      empty.innerHTML = filtroLinea
+        ? 'Sin notas en esta línea.<br>Haz clic en <strong>+</strong> para agregar.'
+        : 'Sin notas todavía.<br>Haz clic en <strong>+</strong> en cualquier línea.';
+      return;
+    }
+    empty.style.display = 'none';
+
+    const estadoLabel = { pendiente:'🟡 Pendiente', reescribir:'🔵 Por reescribir', incorporar:'🟢 Por incorporar', rechazado:'⚫ No aplica' };
+
+    lista.innerHTML = visibles.map(n => `
+      <div class="np-nota" onclick="verLinea('${n.linea_id}')" style="cursor:pointer;">
+        <div class="np-nota-head">
+          <span class="np-autor autor-${n.autor}">${n.autor}</span>
+          <span class="np-tipo">${n.tipo}</span>
+          <span style="margin-left:auto;font-size:10px;color:var(--muted)">${n.fecha}</span>
+        </div>
+        <div class="np-texto">${n.razon}</div>
+        ${n.propuesto && n.estado === 'pendiente' ? `<div class="np-propuesto">${n.propuesto}</div>` : ''}
+        ${n.corregido ? `
+          <div style="margin:6px 0 4px;">
+            <div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:${n.estado==='incorporar'?'var(--ok)':'var(--b3)'};margin-bottom:4px;">
+              ${n.estado==='incorporar' ? '✓ Versión corregida' : '✏ Borrador de reescritura'}
+            </div>
+            <div style="font-family:'Courier Prime',monospace;font-size:13px;line-height:1.65;background:${n.estado==='incorporar'?'rgba(30,125,79,0.06)':'rgba(66,68,168,0.06)'};border-left:2px solid ${n.estado==='incorporar'?'var(--ok)':'var(--b3)'};padding:8px 12px;border-radius:0 6px 6px 0;">${n.corregido}</div>
+          </div>
+        ` : ''}
+        <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">Línea: <strong>${n.linea_id}</strong></div>
+        ${modoAprobador && n.estado === 'pendiente' ? `
+          <div class="np-acciones" onclick="event.stopPropagation()">
+            <button class="np-btn" style="background:rgba(66,68,168,0.1);border-color:rgba(66,68,168,0.3);color:var(--b3);" onclick="cambiarEstado(${n.id},'reescribir')">✏ Reescribir</button>
+            <button class="np-btn aprobar" onclick="cambiarEstado(${n.id},'incorporar')">✓ Incorporar</button>
+            <button class="np-btn rechazar" onclick="cambiarEstado(${n.id},'rechazado')">✕ No aplica</button>
+          </div>
+        ` : n.estado !== 'pendiente' ? `
+          <div class="np-acciones">
+            <span style="font-size:11px;font-weight:600;">${estadoLabel[n.estado] || n.estado}</span>
+            ${modoAprobador ? `<button class="np-btn" style="font-size:10px;padding:2px 8px;background:none;border-color:var(--line);color:var(--muted);" onclick="event.stopPropagation();cambiarEstado(${n.id},'pendiente')">↩ Reabrir</button>` : ''}
+          </div>
+        ` : `<div style="font-size:11px;color:var(--muted);font-style:italic;">🟡 Pendiente de revisión</div>`}
+      </div>
+    `).join('');
+  }
+
+  /* ── MARCAR / ACTUALIZAR LÍNEAS ── */
+  function marcarLinea(id) {
+    actualizarLineas();
+  }
+
+  function actualizarLineas() {
+    /* limpiar todos los estados */
+    document.querySelectorAll('.linea[data-id]').forEach(el => {
+      el.classList.remove('nota-pendiente','nota-reescribir','nota-incorporar','nota-rechazado');
+      el.onclick = null;
+    });
+
+    /* agrupar notas por línea — prioridad: pendiente > reescribir > incorporar > rechazado */
+    const prioridad = { pendiente:0, reescribir:1, incorporar:2, rechazado:3 };
+    const porLinea  = {};
+    notas.forEach(n => {
+      if (!porLinea[n.linea_id] || prioridad[n.estado] < prioridad[porLinea[n.linea_id]]) {
+        porLinea[n.linea_id] = n.estado;
+      }
+    });
+
+    Object.entries(porLinea).forEach(([lineaId, estado]) => {
+      const el = document.querySelector(`[data-id="${lineaId}"]`);
+      if (!el) return;
+      el.classList.add(`nota-${estado}`);
+      el.onclick = (e) => {
+        if (e.target.classList.contains('linea-add-btn')) return;
+        verLinea(lineaId);
+      };
+    });
+  }
+
+  /* ── TOAST ── */
+  function mostrarToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  /* ── INIT ── */
+  cargarNotas().then(() => actualizarLineas());
+</script>
+</body>
+</html>
