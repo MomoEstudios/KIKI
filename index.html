@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIKI — Nébula Proyecto Artístico</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream:  #FAF8F3;
+      --cream2: #F2EFE8;
+      --ink:    #1C1A16;
+      --ink2:   #3D3A34;
+      --muted:  #7A7568;
+      --line:   #E0DDD5;
+      --b1:     #D94F6E;
+      --b2:     #2E9E71;
+      --b3:     #5456C8;
+      --b4:     #A83EC2;
+      --gold:   #C8961F;
+      --ok:     #1E7D4F;
+      --warn:   #B85C00;
+      --r: 12px;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(250,248,243,0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      padding: 0 28px; height: 52px;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .nav-brand {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900; font-size: 17px;
+      color: var(--ink); margin-right: auto; letter-spacing: 0.04em;
+    }
+    .nav-brand em { font-style: italic; color: var(--gold); }
+    nav a {
+      font-size: 13px; font-weight: 500; color: var(--muted);
+      text-decoration: none; padding: 5px 11px; border-radius: 6px;
+      transition: background .15s, color .15s; white-space: nowrap;
+    }
+    nav a:hover { background: var(--cream2); color: var(--ink); }
+    @media(max-width:640px){ nav a { display: none; } }
+
+    /* ─── PAGE WRAPPER ─── */
+    .page { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+    /* ─── HERO ─── */
+    .hero {
+      padding: 64px 24px 52px;
+      max-width: 860px; margin: 0 auto;
+      border-bottom: 1px solid var(--line);
+    }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--cream2); border: 1px solid var(--line);
+      border-radius: 100px; padding: 5px 14px;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 24px;
+    }
+    .hero-tag span { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(72px, 14vw, 148px);
+      font-weight: 900; line-height: 0.9;
+      color: var(--ink); margin-bottom: 24px;
+    }
+    .hero h1 em { font-style: italic; color: var(--gold); }
+    .hero-desc {
+      font-size: 17px; color: var(--ink2);
+      line-height: 1.75; max-width: 540px; margin-bottom: 32px;
+    }
+    .hero-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      background: white; border: 1px solid var(--line);
+      border-radius: 8px; padding: 8px 14px; font-size: 13px; color: var(--ink2);
+    }
+    .chip strong {
+      color: var(--muted); font-weight: 600; display: block;
+      font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 1px;
+    }
+
+    /* ─── SECTION HEADER ─── */
+    .sec-head { padding: 56px 0 28px; }
+    .sec-label {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 8px;
+    }
+    .sec-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(24px, 3.5vw, 36px);
+      font-weight: 700; line-height: 1.15; color: var(--ink);
+    }
+    .sec-title em { font-style: italic; }
+    .sec-sub {
+      font-size: 14px; color: var(--muted);
+      margin-top: 8px; max-width: 560px; line-height: 1.65;
+    }
+    .sec-divider { border: none; border-top: 1px solid var(--line); margin: 0; }
+
+    /* ─── SINOPSIS ─── */
+    .sinopsis-body {
+      font-size: 16px; color: var(--ink2);
+      line-height: 1.8; max-width: 640px; margin-bottom: 16px;
+    }
+    .cultura-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .ctag {
+      padding: 5px 13px; border-radius: 100px;
+      font-size: 13px; font-weight: 500; border: 1px solid;
+    }
+    .ctag.c1 { background: rgba(217,79,110,0.07); border-color: rgba(217,79,110,0.2); color: var(--b1); }
+    .ctag.c2 { background: rgba(46,158,113,0.07); border-color: rgba(46,158,113,0.2); color: var(--b2); }
+    .ctag.c3 { background: rgba(84,86,200,0.07); border-color: rgba(84,86,200,0.2); color: var(--b3); }
+    .ctag.c4 { background: rgba(200,150,31,0.07); border-color: rgba(200,150,31,0.2); color: var(--gold); }
+
+    /* ─── ESTADO DEL GUIÓN ─── */
+    .guion-estado {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    @media(max-width:580px){ .guion-estado { grid-template-columns: 1fr; } }
+
+    .estado-col { display: flex; flex-direction: column; gap: 8px; }
+
+    .estado-titulo {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      margin-bottom: 4px; padding: 0 4px;
+    }
+    .estado-titulo.ok { color: var(--ok); }
+    .estado-titulo.pend { color: var(--warn); }
+
+    .estado-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      background: white; border: 1px solid var(--line);
+      border-radius: 10px; padding: 12px 14px;
+      font-size: 13px; color: var(--ink2); line-height: 1.5;
+    }
+    .estado-item .ei-icon { font-size: 15px; flex-shrink: 0; padding-top: 1px; }
+    .estado-item.ok { border-color: rgba(30,125,79,0.2); background: rgba(30,125,79,0.04); }
+    .estado-item.pend { border-color: rgba(184,92,0,0.2); background: rgba(184,92,0,0.04); }
+    .estado-item strong { color: var(--ink); font-weight: 600; display: block; margin-bottom: 2px; }
+
+    /* ─── PREGUNTA CLAVE ─── */
+    .preguntas { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+    .pregunta {
+      background: white; border: 1px solid var(--line);
+      border-radius: 10px; padding: 16px 18px;
+    }
+    .pregunta-head {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 6px;
+    }
+    .preg-badge {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 3px 8px; border-radius: 4px; flex-shrink: 0;
+    }
+    .preg-badge.critica { background: rgba(217,79,110,0.1); color: var(--b1); }
+    .preg-badge.importante { background: rgba(84,86,200,0.1); color: var(--b3); }
+    .preg-badge.definir { background: rgba(200,150,31,0.1); color: var(--gold); }
+    .pregunta-texto {
+      font-size: 15px; font-weight: 600; color: var(--ink); line-height: 1.3;
+    }
+    .pregunta-porque {
+      font-size: 13px; color: var(--muted); line-height: 1.6; margin-top: 6px;
+    }
+    .pregunta-porque strong { color: var(--ink2); font-weight: 600; }
+
+    /* ─── FORTALEZAS ─── */
+    .fortalezas { display: flex; flex-direction: column; gap: 8px; }
+    .fortaleza {
+      display: flex; align-items: flex-start; gap: 12px;
+      background: white; border: 1px solid rgba(30,125,79,0.2);
+      border-radius: 10px; padding: 14px 16px;
+      font-size: 14px; color: var(--ink2); line-height: 1.6;
+    }
+    .fortaleza .fi { font-size: 18px; flex-shrink: 0; }
+    .fortaleza strong { color: var(--ink); font-weight: 600; display: block; margin-bottom: 2px; }
+
+    /* ─── BLOQUES ─── */
+    .bloques { display: flex; flex-direction: column; gap: 10px; }
+    .bloque {
+      background: white; border: 1px solid var(--line);
+      border-radius: var(--r); padding: 20px 20px 20px 0;
+      display: grid; grid-template-columns: 4px 1fr auto;
+      gap: 0 18px; align-items: start;
+      transition: box-shadow .2s;
+    }
+    .bloque:hover { box-shadow: 0 3px 16px rgba(0,0,0,0.07); }
+    .bloque-stripe {
+      width: 4px; border-radius: 4px; height: 100%;
+      min-height: 60px; align-self: stretch;
+    }
+    .b1 .bloque-stripe { background: var(--b1); }
+    .b2 .bloque-stripe { background: var(--b2); }
+    .b3 .bloque-stripe { background: var(--b3); }
+    .b4 .bloque-stripe { background: var(--b4); }
+    .bloque-num {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 3px;
+    }
+    .b1 .bloque-num { color: var(--b1); }
+    .b2 .bloque-num { color: var(--b2); }
+    .b3 .bloque-num { color: var(--b3); }
+    .b4 .bloque-num { color: var(--b4); }
+    .bloque-nombre {
+      font-family: 'Playfair Display', serif;
+      font-size: 19px; font-weight: 700; margin-bottom: 6px; line-height: 1.2;
+    }
+    .bloque-desc { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 10px; }
+    .bloque-status {
+      display: flex; gap: 6px; flex-wrap: wrap;
+    }
+    .bloque-sensor {
+      display: flex; flex-direction: column;
+      align-items: flex-end; gap: 2px; text-align: right; flex-shrink: 0;
+    }
+    .sensor-emoji { font-size: 22px; }
+    .sensor-sentido { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+    .sensor-valor { font-size: 12px; font-weight: 500; color: var(--ink2); }
+    @media(max-width:500px){ .bloque { grid-template-columns: 4px 1fr; } .bloque-sensor { display: none; } }
+
+    .stag {
+      font-size: 11px; font-weight: 600;
+      padding: 2px 8px; border-radius: 4px;
+    }
+    .stag.ok { background: rgba(30,125,79,0.1); color: var(--ok); }
+    .stag.wip { background: rgba(200,150,31,0.1); color: var(--warn); }
+    .stag.empty { background: rgba(217,79,110,0.1); color: var(--b1); }
+
+    /* ─── HISTORIA ─── */
+    .historia-bloque { margin-bottom: 36px; }
+    .hb-header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 16px 18px;
+      border-radius: var(--r) var(--r) 0 0;
+      border: 1px solid var(--line);
+    }
+    .b1-bg .hb-header { background: rgba(217,79,110,0.06); border-color: rgba(217,79,110,0.2); }
+    .b2-bg .hb-header { background: rgba(46,158,113,0.06); border-color: rgba(46,158,113,0.2); }
+    .b3-bg .hb-header { background: rgba(84,86,200,0.06); border-color: rgba(84,86,200,0.2); }
+    .b4-bg .hb-header { background: rgba(168,62,194,0.06); border-color: rgba(168,62,194,0.2); }
+    .bp-bg .hb-header { background: rgba(200,150,31,0.06); border-color: rgba(200,150,31,0.2); }
+    .hb-dot {
+      width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+    }
+    .b1-bg .hb-dot { background: var(--b1); }
+    .b2-bg .hb-dot { background: var(--b2); }
+    .b3-bg .hb-dot { background: var(--b3); }
+    .b4-bg .hb-dot { background: var(--b4); }
+    .bp-bg .hb-dot { background: var(--gold); }
+    .hb-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+    .b1-bg .hb-label { color: var(--b1); }
+    .b2-bg .hb-label { color: var(--b2); }
+    .b3-bg .hb-label { color: var(--b3); }
+    .b4-bg .hb-label { color: var(--b4); }
+    .bp-bg .hb-label { color: var(--gold); }
+    .hb-titulo {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px; font-weight: 700; color: var(--ink);
+    }
+    .hb-pct {
+      margin-left: auto; font-size: 12px; font-weight: 700;
+      padding: 3px 10px; border-radius: 100px;
+    }
+    .pct-ok { background: rgba(30,125,79,0.1); color: var(--ok); }
+    .pct-mid { background: rgba(200,150,31,0.1); color: var(--warn); }
+    .pct-low { background: rgba(217,79,110,0.1); color: var(--b1); }
+
+    .hb-beats {
+      background: white;
+      border: 1px solid var(--line); border-top: none;
+    }
+    .b1-bg .hb-beats { border-color: rgba(217,79,110,0.2); }
+    .b2-bg .hb-beats { border-color: rgba(46,158,113,0.2); }
+    .b3-bg .hb-beats { border-color: rgba(84,86,200,0.2); }
+    .b4-bg .hb-beats { border-color: rgba(168,62,194,0.2); }
+    .bp-bg .hb-beats { border-color: rgba(200,150,31,0.2); }
+
+    .beat-row {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 13px 18px; border-bottom: 1px solid var(--line);
+      font-size: 14px; color: var(--ink2); line-height: 1.65;
+    }
+    .beat-row:last-child { border-bottom: none; }
+    .beat-icon { font-size: 15px; flex-shrink: 0; padding-top: 2px; }
+    .beat-text strong { color: var(--ink); font-weight: 600; }
+    .beat-text em { font-style: italic; }
+    .beat-quote {
+      background: var(--cream2);
+      border-left: 2px solid var(--b3);
+      padding: 10px 14px; border-radius: 0 6px 6px 0;
+      margin-top: 8px;
+      font-family: 'Playfair Display', serif;
+      font-size: 14px; color: var(--ink2); font-style: italic;
+      line-height: 1.6;
+    }
+
+    .hb-footer {
+      border: 1px solid var(--line); border-top: none;
+      border-radius: 0 0 var(--r) var(--r);
+      padding: 12px 18px;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .b1-bg .hb-footer { border-color: rgba(217,79,110,0.2); background: rgba(217,79,110,0.03); }
+    .b2-bg .hb-footer { border-color: rgba(46,158,113,0.2); background: rgba(46,158,113,0.03); }
+    .b3-bg .hb-footer { border-color: rgba(84,86,200,0.2); background: rgba(84,86,200,0.03); }
+    .b4-bg .hb-footer { border-color: rgba(168,62,194,0.2); background: rgba(168,62,194,0.03); }
+    .bp-bg .hb-footer { border-color: rgba(200,150,31,0.2); background: rgba(200,150,31,0.03); }
+
+    .hb-pendiente {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: 13px; color: var(--warn); line-height: 1.5;
+    }
+    .hb-pendiente::before { content: '○'; flex-shrink: 0; }
+    .hb-resuelto {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: 13px; color: var(--ok); line-height: 1.5;
+    }
+    .hb-resuelto::before { content: '✓'; flex-shrink: 0; font-weight: 700; }
+
+    /* ─── ESTRUCTURA ─── */
+    .estructura-list {
+      background: white; border: 1px solid var(--line);
+      border-radius: var(--r); overflow: hidden;
+    }
+    .est-row {
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 16px 20px; border-bottom: 1px solid var(--line);
+    }
+    .est-row:last-child { border-bottom: none; }
+    .est-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--cream2); border: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; color: var(--muted); flex-shrink: 0;
+    }
+    .est-title { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+    .est-desc { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+    /* ─── EQUIPO ─── */
+    .equipo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 10px;
+    }
+    .persona {
+      background: white; border: 1px solid var(--line);
+      border-radius: var(--r); padding: 18px 20px;
+    }
+    .persona.lead { border-color: rgba(200,150,31,0.3); background: #fffef9; }
+    .persona-rol { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 5px; }
+    .persona-nombre { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+    .persona-bio { font-size: 13px; color: var(--muted); line-height: 1.6; }
+    .persona-empresa { font-size: 11px; font-weight: 600; color: var(--muted); margin-top: 10px; border-top: 1px solid var(--line); padding-top: 8px; }
+
+    /* ─── ELENCO ─── */
+    .elenco-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 10px;
+    }
+    .bailarin {
+      background: white; border: 1px solid var(--line);
+      border-radius: var(--r); padding: 18px;
+    }
+    .bailarin-av {
+      width: 38px; height: 38px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 16px; font-weight: 700; color: white; margin-bottom: 10px;
+    }
+    .bailarin-nombre { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+    .bailarin-disc { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+    .bailarin-bio { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+    /* ─── MÚSICO ─── */
+    .musico {
+      background: white; border: 1px solid var(--line);
+      border-radius: var(--r); padding: 24px;
+    }
+    .musico-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 14px; flex-wrap: wrap; }
+    .musico-av {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--b1), var(--b4));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 20px; font-weight: 700; color: white; flex-shrink: 0;
+    }
+    .musico-rol { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 3px; }
+    .musico-nombre { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; margin-bottom: 3px; }
+    .musico-sub { font-size: 13px; color: var(--muted); }
+    .musico-bio { font-size: 14px; color: var(--ink2); line-height: 1.75; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      margin-top: 80px; padding: 36px 24px;
+      background: var(--ink); text-align: center;
+      color: rgba(255,255,255,0.4);
+    }
+    footer .ft { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 900; color: white; letter-spacing: 0.06em; display: block; margin-bottom: 5px; }
+    footer .ft em { font-style: italic; color: var(--gold); }
+    footer small { font-size: 12px; }
+
+    /* ─── REVEAL ─── */
+    .rv { opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .5s ease; }
+    .rv.in { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">KI<em>KI</em></div>
+  <a href="#sinopsis">Proyecto</a>
+  <a href="#guion">Guión</a>
+  <a href="#historia">Historia</a>
+  <a href="#estructura">Estructura</a>
+  <a href="#equipo">Equipo</a>
+  <a href="#elenco">Elenco</a>
+  <a href="guion.html" style="color:var(--gold);font-weight:600;">Ver guión →</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero rv">
+  <div class="hero-tag"><span></span> Nébula Proyecto Artístico — Presenta</div>
+  <h1>KI<em>KI</em></h1>
+  <p class="hero-desc">Producción interdisciplinaria e inmersiva · Música, danza, cine y fotografía en vivo. Cuatro bloques que activan los cinco sentidos del público.</p>
+  <div class="hero-chips">
+    <div class="chip"><strong>Duración</strong>60 minutos</div>
+    <div class="chip"><strong>Público</strong>18+</div>
+    <div class="chip"><strong>Categoría</strong>Cine · Música · Danza</div>
+    <div class="chip"><strong>Estreno</strong>Teatro del Estado · 1,056 aforo</div>
+    <div class="chip"><strong>Boletaje</strong>$350 – $400</div>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- SINOPSIS -->
+  <div id="sinopsis" class="sec-head rv">
+    <div class="sec-label">El proyecto</div>
+    <div class="sec-title">Una historia <em>tricultural</em></div>
+    <p class="sec-sub">Mexicali como escenario — identidad cachanilla, china y americana entretejidas en un viaje interior.</p>
+  </div>
+  <hr class="sec-divider">
+
+  <div class="rv" style="padding-top:28px;">
+    <img src="img/portada kiki.webp" alt="KIKI" style="width:100%;border-radius:14px;margin-bottom:28px;object-fit:cover;max-height:420px;box-shadow:0 8px 40px rgba(0,0,0,0.1);">
+    <p class="sinopsis-body">
+      Kiki es una chica cachanilla que se encuentra con un guía espiritual en La Chinesca. Este guía la pone a prueba para que tome la valiente decisión de cambiar su vida a través de la música — su gran pasión. En su viaje llega a un portal que la lleva a un mundo paralelo, donde encuentra a otras chicas que tomaron el mismo camino.
+    </p>
+    <p class="sinopsis-body">
+      Es una función inmersiva que activa los sentidos del público a través de elementos visuales, táctiles, olfativos, gustativos y auditivos.
+    </p>
+    <div class="cultura-tags">
+      <span class="ctag c1">🌮 Cachanilla</span>
+      <span class="ctag c2">🥢 China</span>
+      <span class="ctag c3">🇺🇸 Americana</span>
+      <span class="ctag c4">🎵 Cine · Danza · Música</span>
+    </div>
+  </div>
+
+  <!-- ESTADO DEL GUIÓN -->
+  <div id="guion" class="sec-head rv">
+    <div class="sec-label">Análisis narrativo</div>
+    <div class="sec-title">Estado del <em>guión</em></div>
+    <p class="sec-sub">Lo que está resuelto, lo que falta definir, y las preguntas clave que determinan cómo funciona la historia.</p>
+  </div>
+  <hr class="sec-divider">
+
+  <div class="rv" style="padding-top:28px; margin-bottom: 16px;">
+    <div style="font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--ok); margin-bottom:12px; padding: 0 2px;">✓ Lo que funciona muy bien</div>
+  </div>
+
+  <div class="fortalezas rv" style="margin-bottom:40px;">
+    <div class="fortaleza">
+      <span class="fi">🪑</span>
+      <div><strong>La silla vacía</strong> Es la mejor imagen del proyecto. Simple, universal, poderosa. Dice todo sobre Kiki sin necesitar diálogo.</div>
+    </div>
+    <div class="fortaleza">
+      <span class="fi">🐦</span>
+      <div><strong>El colibrí como hilo conductor</strong> Aparece en el prólogo, en el Bloque 1 y puede aparecer en más momentos. Es el símbolo que conecta todo el arco espiritual de la historia.</div>
+    </div>
+    <div class="fortaleza">
+      <span class="fi">🧠</span>
+      <div><strong>Los detonantes sensoriales por bloque</strong> Cada sentido = cada etapa del viaje de Kiki. Es dramaturgia inmersiva bien construida — olfato → gusto → tacto → gusto psicodélico.</div>
+    </div>
+    <div class="fortaleza">
+      <span class="fi">🗺️</span>
+      <div><strong>La Chinesca como escenario</strong> Único, culturalmente específico y cargado de identidad. No es un escenario genérico — tiene peso real.</div>
+    </div>
+    <div class="fortaleza">
+      <span class="fi">🏗️</span>
+      <div><strong>Estructura de Hero's Journey bien planteada</strong> Los 4 bloques siguen naturalmente: mundo ordinario → llamado → prueba → transformación. La base narrativa es sólida.</div>
+    </div>
+  </div>
+
+  <div class="rv" style="margin-bottom:12px;">
+    <div style="font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--b1); margin-bottom:4px; padding:0 2px;">⬡ Preguntas críticas — hay que responderlas antes del 17 de junio</div>
+    <div style="font-size:13px; color:var(--muted); padding:0 2px; margin-bottom:16px;">Si no se resuelven, la historia se siente incompleta al momento de presentarla.</div>
+  </div>
+
+  <div class="preguntas rv">
+
+    <div class="pregunta">
+      <div class="pregunta-head">
+        <span class="preg-badge critica">Crítica</span>
+        <div class="pregunta-texto">¿Kiki ya toca guitarra o lo descubre en el mundo paralelo?</div>
+      </div>
+      <div class="pregunta-porque">
+        <strong>Por qué importa:</strong> Si ya tocaba y lo abandonó → la historia es sobre <em>recuperar su voz</em>. Si nunca ha tocado → es sobre <em>descubrir quién es</em>. Son dos historias completamente diferentes y cambian toda la narrativa del Bloque 1 y el final.
+      </div>
+    </div>
+
+    <div class="pregunta">
+      <div class="pregunta-head">
+        <span class="preg-badge critica">Crítica</span>
+        <div class="pregunta-texto">¿El colibrí es el espíritu de su mamá?</div>
+      </div>
+      <div class="pregunta-porque">
+        <strong>Por qué importa:</strong> En la cultura mexicana el colibrí es el alma de los muertos. Si la mamá muerta = el colibrí, la historia tiene una capa emocional completamente distinta — mamá ha estado guiándola desde el principio, no el cocinero. El cocinero sería solo el mensajero. Esto le daría al Bloque 1 mucho más peso emocional desde la silla vacía.
+      </div>
+    </div>
+
+    <div class="pregunta">
+      <div class="pregunta-head">
+        <span class="preg-badge critica">Crítica</span>
+        <div class="pregunta-texto">¿Cómo se ve la metamorfosis de Kiki en escena? — No regresa, se convierte</div>
+      </div>
+      <div class="pregunta-porque">
+        <strong>Por qué importa:</strong> No es una transformación — es una <em>metamorfosis</em>. Kiki no regresa a quien era. Se convierte en algo nuevo. La pregunta ya no es si vuelve, sino <strong>cómo se ve esa nueva forma en escena</strong> y qué queda de ella en el mundo real al terminar la función.
+      </div>
+    </div>
+
+    <div class="pregunta">
+      <div class="pregunta-head">
+        <span class="preg-badge importante">Importante</span>
+        <div class="pregunta-texto">¿Qué pasa exactamente en el Bloque 2? — La prueba en La Chinesca</div>
+      </div>
+      <div class="pregunta-porque">
+        <strong>Por qué importa:</strong> Ahora mismo el Bloque 2 está casi vacío. Kiki llega con coordenadas y en el Bloque 3 ya tiene un cocinero y una frase. Falta la escena que las conecta. <strong>¿Qué la pone a prueba? ¿Qué ve, escucha o siente en La Chinesca que la lleva al cocinero?</strong>
+      </div>
+    </div>
+
+    <div class="pregunta">
+      <div class="pregunta-head">
+        <span class="preg-badge importante">Importante</span>
+        <div class="pregunta-texto">¿La chica con la bocina del Bloque 1 vuelve a aparecer?</div>
+      </div>
+      <div class="pregunta-porque">
+        <strong>Por qué importa:</strong> Aparece, tiene al colibrí, y desaparece. Si no vuelve, es una escena suelta sin resolución. Si aparece en el mundo paralelo como una de las chicas músicas, el círculo narrativo se cierra de manera muy satisfactoria.
+      </div>
+    </div>
+
+    <div class="pregunta">
+      <div class="pregunta-head">
+        <span class="preg-badge definir">Por definir</span>
+        <div class="pregunta-texto">¿Qué le da exactamente el cocinero chino a Kiki para transportarla?</div>
+      </div>
+      <div class="pregunta-porque">
+        Es el objeto del portal. Puede ser algo comestible (coherente con los detonantes), algo con significado cultural, o algo relacionado con la música. <strong>Lo que sea debe conectar simbólicamente con la historia de Kiki.</strong>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BLOQUES -->
+  <div class="sec-head rv">
+    <div class="sec-label">Estructura narrativa</div>
+    <div class="sec-title">Los cuatro <em>bloques</em></div>
+    <p class="sec-sub">Cada bloque entrega un elemento físico sensorial al público. Estado de desarrollo indicado por bloque.</p>
+  </div>
+  <hr class="sec-divider">
+
+  <div class="bloques rv" style="margin-top:28px;">
+
+    <div class="bloque b1">
+      <div class="bloque-stripe"></div>
+      <div class="bloque-body">
+        <div class="bloque-num">Bloque 01</div>
+        <div class="bloque-nombre">¿Quién es Kiki?</div>
+        <div class="bloque-desc">Familia, trabajo, la silla vacía, la chica del colibrí, las flores con coordenadas.</div>
+        <div class="bloque-status">
+          <span class="stag ok">✓ Bien desarrollado</span>
+          <span class="stag wip">○ Falta definir guitarra</span>
+        </div>
+      </div>
+      <div class="bloque-sensor">
+        <div class="sensor-emoji">🌹</div>
+        <div class="sensor-sentido">Olfato</div>
+        <div class="sensor-valor">Rosas</div>
+      </div>
+    </div>
+
+    <div class="bloque b2">
+      <div class="bloque-stripe"></div>
+      <div class="bloque-body">
+        <div class="bloque-num">Bloque 02</div>
+        <div class="bloque-nombre">La ciudad y un guía espiritual</div>
+        <div class="bloque-desc">Kiki sigue las coordenadas a La Chinesca. El entorno chino de Mexicali.</div>
+        <div class="bloque-status">
+          <span class="stag empty">⚠ Sin desarrollar</span>
+          <span class="stag wip">○ Falta la prueba en La Chinesca</span>
+        </div>
+      </div>
+      <div class="bloque-sensor">
+        <div class="sensor-emoji">🍵</div>
+        <div class="sensor-sentido">Gusto</div>
+        <div class="sensor-valor">Té verde</div>
+      </div>
+    </div>
+
+    <div class="bloque b3">
+      <div class="bloque-stripe"></div>
+      <div class="bloque-body">
+        <div class="bloque-num">Bloque 03</div>
+        <div class="bloque-nombre">Portal</div>
+        <div class="bloque-desc">El cocinero chino, la frase, el objeto del portal, la Laguna Salada.</div>
+        <div class="bloque-status">
+          <span class="stag ok">✓ Base definida</span>
+          <span class="stag wip">○ Falta el objeto del portal</span>
+        </div>
+      </div>
+      <div class="bloque-sensor">
+        <div class="sensor-emoji">🏜️</div>
+        <div class="sensor-sentido">Tacto</div>
+        <div class="sensor-valor">Arena de La Salada</div>
+      </div>
+    </div>
+
+    <div class="bloque b4">
+      <div class="bloque-stripe"></div>
+      <div class="bloque-body">
+        <div class="bloque-num">Bloque 04</div>
+        <div class="bloque-nombre">Un mundo paralelo</div>
+        <div class="bloque-desc">La paleta, el viaje psicodélico, las chicas músicas, el árbol, la mariposa, la guitarra.</div>
+        <div class="bloque-status">
+          <span class="stag ok">✓ Imágenes definidas</span>
+          <span class="stag wip">○ Falta el cierre / regreso</span>
+        </div>
+      </div>
+      <div class="bloque-sensor">
+        <div class="sensor-emoji">🍭</div>
+        <div class="sensor-sentido">Gusto</div>
+        <div class="sensor-valor">Paleta glitter rosa</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- HISTORIA -->
+  <div id="historia" class="sec-head rv">
+    <div class="sec-label">Guión en desarrollo</div>
+    <div class="sec-title">La historia, <em>beat a beat</em></div>
+    <p class="sec-sub">Lo resuelto en verde · Lo pendiente en naranja. Se actualiza después de cada sesión.</p>
+  </div>
+  <hr class="sec-divider">
+
+  <div style="padding-top:28px; display:flex; flex-direction:column; gap:16px;">
+
+    <!-- PRÓLOGO -->
+    <div class="historia-bloque bp-bg rv">
+      <div class="hb-header">
+        <div class="hb-dot"></div>
+        <div>
+          <div class="hb-label">Prólogo</div>
+          <div class="hb-titulo">El inicio del universo</div>
+        </div>
+        <span class="hb-pct pct-mid">En desarrollo</span>
+      </div>
+      <div class="hb-beats">
+        <div class="beat-row"><span class="beat-icon">🌋</span><div class="beat-text">Volcán en erupción. Un colibrí. Animales guías espirituales.</div></div>
+        <div class="beat-row"><span class="beat-icon">🥁</span><div class="beat-text">La <strong>baterista inicia en solitario</strong> — representa a todo el elenco. El sonido abre el universo antes de que entre la proyección.</div></div>
+      </div>
+      <div class="hb-footer bp-bg">
+        <div class="hb-pendiente">¿Qué animales guía aparecen? ¿El colibrí ya es la mamá de Kiki desde el prólogo?</div>
+        <div class="hb-pendiente">¿La baterista está en escena todo el tiempo o solo abre?</div>
+      </div>
+    </div>
+
+    <!-- BLOQUE 1 -->
+    <div class="historia-bloque b1-bg rv">
+      <div class="hb-header">
+        <div class="hb-dot"></div>
+        <div>
+          <div class="hb-label">Bloque 01 · 🌹 Olfato — Rosas</div>
+          <div class="hb-titulo">¿Quién es Kiki?</div>
+        </div>
+        <span class="hb-pct pct-ok">Guión listo</span>
+      </div>
+      <div class="hb-beats">
+
+        <div class="beat-row" style="background:rgba(217,79,110,0.03)">
+          <span class="beat-icon">🎬</span>
+          <div class="beat-text" style="font-size:13px;">
+            <strong style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--b1);">Cinematográfico</strong><br>
+            <strong>INT. CASA DE KIKI — TARDE</strong><br><br>
+            Un cuadro cuelga en la pared de la entrada. Pintado a mano. En la esquina inferior, una firma.<br>
+            Debajo del cuadro, un florero. Una flor adentro — marchita.<br><br>
+            Kiki abre la puerta. Entra cargando cosas del trabajo. Al dejarlas en el mueble, su brazo roza el cuadro. Se ladea.<br><br>
+            Kiki lo endereza de manera automática — y en ese gesto lo ve.<br><br>
+            La mitad izquierda descolorida. Años de sol. Nadie lo había notado.<br><br>
+            Se aleja un paso. Mira la firma en la esquina.<br><br>
+            <em>Un momento.</em><br><br>
+            Su teléfono vibra. Contesta. Toma sus cosas y sale apresurada.<br><br>
+            El cuadro se queda torcido.
+          </div>
+        </div>
+
+        <div class="beat-row" style="background:rgba(217,79,110,0.03)">
+          <span class="beat-icon">🎬</span>
+          <div class="beat-text" style="font-size:13px;">
+            <strong>INT. CASA DE KIKI — MÁS TARDE</strong><br><br>
+            La puerta se abre. Kiki entra. En la mano trae una flor.<br><br>
+            La deja en el mueble. Se queda parada frente al cuadro torcido. Lo acomoda.<br><br>
+            La cámara se desplaza — deja la puerta atrás, se centra en el cuadro.<br><br>
+            Kiki regresa al mueble. Toma la flor. Se agacha hacia el florero. Saca la flor marchita. La sostiene un momento.<br><br>
+            La cambia por la flor nueva.<br><br>
+            Da un paso atrás. El cuadro acomodado. El florero con la flor fresca. La firma en la esquina.
+          </div>
+        </div>
+
+        <div class="beat-row" style="background:rgba(217,79,110,0.03)">
+          <span class="beat-icon">🎞️</span>
+          <div class="beat-text" style="font-size:13px;">
+            <strong style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--b1);">Transición</strong><br><br>
+            Fotografías del cuadro. Del florero. De la firma. De la flor marchita en su mano.<br>
+            Imágenes que mutan hacia el estilo cómic — el mundo real se convierte en ilustración.
+          </div>
+        </div>
+
+      </div>
+      <div class="hb-footer b1-bg">
+        <div class="hb-resuelto">El cuadro pintado por la mamá — hilo conductor de toda la historia</div>
+        <div class="hb-resuelto">La mitad descolorida = la entrada al mundo paralelo</div>
+        <div class="hb-resuelto">La firma — no se explica, el público la reconoce al final</div>
+        <div class="hb-resuelto">Kiki regresa con la flor — primer acto consciente, no automático</div>
+        <div class="hb-pendiente">¿Qué hay pintado en el cuadro? — el contenido visual importa para el Bloque 4</div>
+        <div class="hb-pendiente">¿Kiki ya tocaba música? — define el arco completo</div>
+      </div>
+    </div>
+
+    <!-- BLOQUE 2 -->
+    <div class="historia-bloque b2-bg rv">
+      <div class="hb-header">
+        <div class="hb-dot"></div>
+        <div>
+          <div class="hb-label">Bloque 02 · 🍵 Gusto — Té verde</div>
+          <div class="hb-titulo">La ciudad y un guía espiritual</div>
+        </div>
+        <span class="hb-pct pct-ok">Guión listo</span>
+      </div>
+      <div class="hb-beats">
+
+        <div class="beat-row" style="background:rgba(46,158,113,0.03)">
+          <span class="beat-icon">🎬</span>
+          <div class="beat-text" style="font-size:13px;">
+            <strong style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--b2);">Cinematográfico</strong><br>
+            <strong>EXT/INT. LA CHINESCA — RESTAURANTES — DÍA</strong><br><br>
+            Una hilera de restaurantes con la misma fachada. Puertas que se abren y cierran.<br><br>
+            Kiki entra por una. Sale por otra. Entra. Sale. Su jefe aparece en el umbral — le carga los brazos con más cosas. Ella los toma sin detenerse.<br><br>
+            En ese vaivén, al cruzar una puerta, aparece el <strong>cocinero chino</strong>. Kiki pasa de largo. Él no dice nada.<br><br>
+            Cruza otra puerta. El cocinero está ahí de nuevo.<br><br>
+            <em>No es el mismo restaurante. Es el mismo hombre.</em>
+          </div>
+        </div>
+
+        <div class="beat-row" style="background:rgba(46,158,113,0.03)">
+          <span class="beat-icon">🎬</span>
+          <div class="beat-text" style="font-size:13px;">
+            <strong>INT. COCINA — CONTINUO</strong><br><br>
+            Toma desde el interior. En el lado izquierdo del cuadro: el cocinero, de pie, en silencio. La puerta del lado derecho se abre. Entra Kiki. Deja sus cosas sobre la mesa sin mirar.<br><br>
+            Entonces lo ve.<br><br>
+            El cocinero tiene dos vasos frente a él — uno en cada mano. Se los ofrece.<br><br>
+            Kiki señala los dos con la mano.<br><br>
+            El cocinero niega con la cabeza. Despacio. Le acerca los dos vasos al nivel de sus ojos.<br><br>
+            <em>Este. O este.</em><br><br>
+            Kiki señala uno.<br><br>
+            El cocinero se lo da. Recoge el otro. Sale de cuadro.<br><br>
+            Kiki le da un trago. Se para frente a la puerta, dando la espalda a la cámara. Se queda quieta.<br><br>
+            <em>Fade a negro.</em>
+          </div>
+        </div>
+
+        <div class="beat-row" style="background:rgba(46,158,113,0.03)">
+          <span class="beat-icon">📽️</span>
+          <div class="beat-text" style="font-size:13px;">
+            <strong style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--b2);">Proyección</strong><br><br>
+            Agua verde — el color del té. Lenta, moviéndose.
+          </div>
+        </div>
+
+        <div class="beat-row" style="background:rgba(46,158,113,0.05)">
+          <span class="beat-icon">💃</span>
+          <div class="beat-text" style="font-size:13px;">
+            <strong style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--b2);">Coreografía — Escenario</strong><br><br>
+            Kiki voltea hacia el dragón. Su cuerpo lo enfrenta pero su postura lo resiste — no hay rendición, hay conflicto. La coreografía trabaja esa tensión: el dragón como fuerza que llama, Kiki como cuerpo que todavía duda.
+          </div>
+        </div>
+
+        <div class="beat-row" style="background:rgba(46,158,113,0.05)">
+          <span class="beat-icon">📷</span>
+          <div class="beat-text" style="font-size:13px;">
+            <strong style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--b2);">Foto fija</strong><br><br>
+            — Kiki de frente al dragón, contrariada, sin resolver<br>
+            — Kiki de espaldas mirando al dragón<br>
+            — Detalle: un cigarro consumiéndose — solo el humo y la brasa<br>
+            — El vaso de té verde sobre la mesa de la cocina
+          </div>
+        </div>
+
+      </div>
+      <div class="hb-footer b2-bg">
+        <div class="hb-resuelto">Los dos vasos = la elección = la frase del viento sin palabras</div>
+        <div class="hb-resuelto">El cocinero aparece antes de la cocina — no es accidente, es presencia</div>
+        <div class="hb-resuelto">Tres capas definidas: cine · coreografía · foto fija</div>
+        <div class="hb-pendiente">¿Qué hay en el vaso que ella elige? — puede conectar con el elemento del Bloque 3</div>
+      </div>
+    </div>
+
+    <!-- BLOQUE 3 -->
+    <div class="historia-bloque b3-bg rv">
+      <div class="hb-header">
+        <div class="hb-dot"></div>
+        <div>
+          <div class="hb-label">Bloque 03 · 🏜️ Tacto — Arena de La Salada</div>
+          <div class="hb-titulo">Portal</div>
+        </div>
+        <span class="hb-pct pct-ok">Guión listo</span>
+      </div>
+      <div class="hb-beats">
+
+        <div class="beat-row" style="background:rgba(84,86,200,0.03)">
+          <span class="beat-icon">🎬</span>
+          <div class="beat-text" style="font-size:13px;">
+            <strong style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--b3);">Cinematográfico</strong><br>
+            <strong>INT. BAR — NOCHE</strong><br><br>
+            Kiki en una mesa, sola. Michelada. Es su día libre — no hay prisa. Escucha la música. Bebe despacio.<br><br>
+            La pantalla de su teléfono se enciende. Un mensaje. Kiki lo lee. Lo deja boca abajo.<br><br>
+            Vuelve a encenderse: <em>"Ya sé que es tu día de descanso pero me urge que me apoyes con lo que te pedí."</em><br><br>
+            Llamadas entrantes — una, dos, tres. La pantalla no para.<br><br>
+            Kiki la ve encenderse.<br>
+            No contesta.
+          </div>
+        </div>
+
+        <div class="beat-row" style="background:rgba(84,86,200,0.03)">
+          <span class="beat-icon">🎵</span>
+          <div class="beat-text" style="font-size:13px;">
+            <strong>INT. BAR — CONTINUO</strong><br><br>
+            Kiki levanta la vista hacia la rocola. Un álbum: diseño de desierto — arena, horizonte, luz baja.<br><br>
+            El nombre del álbum: <strong>NÉBULA.</strong><br><br>
+            Kiki se queda quieta mirándolo. La canción empieza a sonar.
+          </div>
+        </div>
+
+        <div class="beat-row" style="background:rgba(84,86,200,0.05)">
+          <span class="beat-icon">📷</span>
+          <div class="beat-text" style="font-size:13px;">
+            <strong style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--b3);">Foto fija</strong><br><br>
+            — Kiki iluminada por la luz de la rocola<br>
+            — La cerveza casi llena — dejó de beber cuando vio el álbum<br>
+            — El teléfono encendido con el mensaje del jefe<br>
+            — Letrero de salida del bar<br>
+            — La michelada sobre la mesa
+          </div>
+        </div>
+
+        <div class="beat-row" style="background:rgba(84,86,200,0.05)">
+          <span class="beat-icon">💃</span>
+          <div class="beat-text" style="font-size:13px;">
+            <strong style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--b3);">Apoyo de coreografía</strong><br><br>
+            Mientras suena la canción Nébula — entra coreografía de apoyo en tema desierto. Acompañamiento al estado emocional de Kiki.<br><br>
+            <strong>Apoyo visual:</strong> arena, pies, mesas, vasos. El desierto se filtra en el espacio del bar.
+          </div>
+        </div>
+
+      </div>
+      <div class="hb-footer b3-bg">
+        <div class="hb-resuelto">Kiki elige no contestar al jefe — eco del Bloque 2, ahora sí elige</div>
+        <div class="hb-resuelto">El álbum Nébula en la rocola — el portal se abre a través de la música</div>
+        <div class="hb-resuelto">Tres capas definidas: cine · foto fija · apoyo de coreografía</div>
+        <div class="hb-resuelto">El desierto se filtra visualmente — transición hacia el Bloque 4</div>
+        <div class="hb-pendiente">¿Kiki sale del bar al desierto o el desierto entra al bar?</div>
+      </div>
+    </div>
+
+    <!-- BLOQUE 4 -->
+    <div class="historia-bloque b4-bg rv">
+      <div class="hb-header">
+        <div class="hb-dot"></div>
+        <div>
+          <div class="hb-label">Bloque 04 · 🍭 Gusto — Paleta glitter rosa</div>
+          <div class="hb-titulo">Un mundo paralelo</div>
+        </div>
+        <span class="hb-pct pct-mid">Imágenes definidas</span>
+      </div>
+      <div class="hb-beats">
+        <div class="beat-row"><span class="beat-icon">🏜️</span><div class="beat-text">La <strong>arena de La Laguna Salada</strong> — el tacto como primer ancla del nuevo mundo.</div></div>
+        <div class="beat-row"><span class="beat-icon">🍭</span><div class="beat-text">Al <strong>chupar la paleta</strong> con glitter rosa (hecha artesanalmente para la función), Kiki entra a un <strong>viaje psicodélico</strong>.</div></div>
+        <div class="beat-row"><span class="beat-icon">🎸</span><div class="beat-text">Conoce a las <strong>chicas de la banda musical</strong>. Toca la guitarra — o la recibe de ellas.</div></div>
+        <div class="beat-row"><span class="beat-icon">🌳</span><div class="beat-text">El mundo se llena de vida: un <strong>árbol</strong>, una <strong>mariposa</strong>, elementos que pertenecen a esta realidad paralela — no a la convencional.</div></div>
+        <div class="beat-row"><span class="beat-icon">🎬</span><div class="beat-text">Proyección final con Kiki en ese mundo. El cómic en pantalla se mantiene. Proyección y cómic cierran juntos.</div></div>
+      </div>
+      <div class="hb-footer b4-bg">
+        <div class="hb-resuelto">Las imágenes del mundo paralelo: árbol, mariposa, músicas, guitarra</div>
+        <div class="hb-resuelto">La paleta artesanal como detonante del viaje — genial</div>
+        <div class="hb-resuelto">El cierre es metamorfosis — Kiki no regresa, se convierte en algo nuevo</div>
+        <div class="hb-pendiente">¿Cómo se visualiza esa metamorfosis en escena? — ¿imagen, luz, movimiento, proyección?</div>
+        <div class="hb-pendiente">¿La chica con el colibrí del Bloque 1 aparece aquí? — cerraría el círculo narrativo</div>
+        <div class="hb-pendiente">¿Kiki ya traía la guitarra o se la dan las chicas? — depende de si ya era músico</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ESTRUCTURA -->
+  <div id="estructura" class="sec-head rv">
+    <div class="sec-label">En escena</div>
+    <div class="sec-title">Estructura del <em>espectáculo</em></div>
+    <p class="sec-sub">Cómo se mezclan el cine, la danza en vivo y la música en escena.</p>
+  </div>
+  <hr class="sec-divider">
+
+  <div class="estructura-list rv" style="margin-top:28px;">
+    <div class="est-row">
+      <div class="est-num">1</div>
+      <div><div class="est-title">La baterista inicia</div><div class="est-desc">Abre en solitario — representa a todo el elenco. El sonido precede a la imagen.</div></div>
+    </div>
+    <div class="est-row">
+      <div class="est-num">2</div>
+      <div><div class="est-title">Ingresa proyección — Bloque 1</div><div class="est-desc">Cine, danza en vivo y música se mezclan. El público recibe las flores (rosas — olfato).</div></div>
+    </div>
+    <div class="est-row">
+      <div class="est-num">3</div>
+      <div><div class="est-title">Transición: cómic en pantalla</div><div class="est-desc">Al finalizar el Bloque 1 el estilo cómic entra en pantalla y se mantiene como hilo visual.</div></div>
+    </div>
+    <div class="est-row">
+      <div class="est-num">4</div>
+      <div><div class="est-title">Bloques 2 · 3 · 4</div><div class="est-desc">Proyección y cómic alternan. Cada bloque entrega su elemento sensorial al público.</div></div>
+    </div>
+    <div class="est-row">
+      <div class="est-num">5</div>
+      <div><div class="est-title">Cierre — Proyección final</div><div class="est-desc">Kiki en el mundo paralelo. No regresa — su metamorfosis es el cierre. Proyección y cómic cierran juntos.</div></div>
+    </div>
+  </div>
+
+  <!-- EQUIPO -->
+  <div id="equipo" class="sec-head rv">
+    <div class="sec-label">Créditos</div>
+    <div class="sec-title">El <em>equipo</em></div>
+  </div>
+  <hr class="sec-divider">
+
+  <div class="equipo-grid rv" style="margin-top:28px;">
+    <div class="persona lead">
+      <div class="persona-rol">Dirección y Producción General</div>
+      <div class="persona-nombre">Lina Lorenzo</div>
+      <div class="persona-bio">Bailarina, coreógrafa, directora y productora. Directora de Nébula Proyecto Artístico desde 2020. Maestría UABC. Tallerista FIL 2023, 2024, 2026.</div>
+      <div class="persona-empresa">Nébula Proyecto Artístico</div>
+    </div>
+    <div class="persona">
+      <div class="persona-rol">Producción Cinematográfica</div>
+      <div class="persona-nombre">Javier Vargas</div>
+      <div class="persona-bio">Director y productor. Director General de Scaleta Films. Proyectos en festivales nacionales e internacionales.</div>
+      <div class="persona-empresa">Scaleta Films</div>
+    </div>
+    <div class="persona">
+      <div class="persona-rol">Dirección Musical</div>
+      <div class="persona-nombre">Carlos L. Caldera</div>
+      <div class="persona-bio">Músico profesional, guitarrista, compositor. Tenor en la Ópera de Mexicali. Integrante de Madison Casino. Experiencia en Japón y Los Ángeles.</div>
+    </div>
+    <div class="persona">
+      <div class="persona-rol">Vestuarista y Escenógrafo</div>
+      <div class="persona-nombre">Vicente Serrato</div>
+      <div class="persona-bio">Artista multidisciplinario. +15 años como creador escénico. Director de la tribu Hybrid. Vestuarista para proyectos artísticos nacionales.</div>
+    </div>
+    <div class="persona">
+      <div class="persona-rol">Gestión</div>
+      <div class="persona-nombre">Seled Morales</div>
+      <div class="persona-bio">Diseñadora Industrial UAM. Gestora y Jefa de Staff Arte Week Nébula 2025. Diplomado en gestión de eventos.</div>
+    </div>
+    <div class="persona">
+      <div class="persona-rol">Marketing</div>
+      <div class="persona-nombre">Vanessa Acuña</div>
+      <div class="persona-bio">Diseñadora Gráfica UABC. Estrategia de redes, branding e identidad visual.</div>
+    </div>
+  </div>
+
+  <!-- ELENCO -->
+  <div id="elenco" class="sec-head rv">
+    <div class="sec-label">Bailarines</div>
+    <div class="sec-title">El <em>elenco</em></div>
+    <p class="sec-sub">Seleccionados por audición — Casa de la Cultura, 8 de febrero. Todos con +5 años de trayectoria.</p>
+  </div>
+  <hr class="sec-divider">
+
+  <div class="elenco-grid rv" style="margin-top:28px;">
+    <div class="bailarin">
+      <div class="bailarin-av" style="background:linear-gradient(135deg,#D94F6E,#5456C8)">B</div>
+      <div class="bailarin-nombre">Bárbara Álvarez Vega</div>
+      <div class="bailarin-disc">Intérprete · Bailarina · Actriz</div>
+      <div class="bailarin-bio">Danza Contemporánea UABC. Sin Luna Danza Punk. Actriz en cine y TV comercial.</div>
+    </div>
+    <div class="bailarin">
+      <div class="bailarin-av" style="background:linear-gradient(135deg,#2E9E71,#5456C8)">M</div>
+      <div class="bailarin-nombre">Mauro Gutiérrez González</div>
+      <div class="bailarin-disc">Bailarín · DJ · Iluminador</div>
+      <div class="bailarin-bio">Danza UABC. Antares Danza, Hybrid. Iluminador "Bajo La Lápida". DJ y productor.</div>
+    </div>
+    <div class="bailarin">
+      <div class="bailarin-av" style="background:linear-gradient(135deg,#5456C8,#A83EC2)">A</div>
+      <div class="bailarin-nombre">Anhia Karol Velasquez</div>
+      <div class="bailarin-disc">Bailarina · Coreógrafa</div>
+      <div class="bailarin-bio">Danza UABC. Coreógrafa Fiestas del Sol 2025. "Expediente Mexicali" en Entre Fronteras.</div>
+    </div>
+    <div class="bailarin">
+      <div class="bailarin-av" style="background:linear-gradient(135deg,#A83EC2,#D94F6E)">A</div>
+      <div class="bailarin-nombre">Andrea Ruíz Limón</div>
+      <div class="bailarin-disc">Bailarina · Tallerista</div>
+      <div class="bailarin-bio">Fundadora Monster Crew. Cofundadora Intention (heels). Embajadora Carlota High Heels.</div>
+    </div>
+  </div>
+
+  <!-- MÚSICO -->
+  <div class="sec-head rv">
+    <div class="sec-label">Música tribal · Invitada especial</div>
+    <div class="sec-title"><em>Rossana de Agua</em></div>
+  </div>
+  <hr class="sec-divider">
+
+  <div class="musico rv" style="margin-top:28px;">
+    <div class="musico-header">
+      <div class="musico-av">R</div>
+      <div>
+        <div class="musico-rol">Músico tribal · Invitada especial</div>
+        <div class="musico-nombre">Rossana de Agua</div>
+        <div class="musico-sub">Cantautora · 27 años de trayectoria · Hermosillo / Mexicali</div>
+      </div>
+    </div>
+    <div class="musico-bio">
+      Nacida en Hermosillo, criada en Mexicali. Participó en Aural, La Sombra de las Sombras y Kill Sonic Effect (EUA). Formó parte del <strong>Ensamble Afromexicano Xiuhtecuhtli</strong> recorriendo Costa Rica, Panamá, Colombia, Brasil y Bolivia tocando en las calles. En 2009 se une a la <strong>Caravana Internacional de Caballos Nomads United</strong> en Veracruz. Actualmente en Mexicali — integrante de Morras Sónicas y Nave Ghanta.
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span class="ft">KI<em>KI</em></span>
+  Nébula Proyecto Artístico · Dirección: Lina Lorenzo<br>
+  <small style="margin-top:8px;display:block;">Documento de trabajo · Última actualización: junio 2026</small>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('in'), i * 40);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.04 });
+  document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
