@@ -167,6 +167,32 @@
 
     .linea.linea-activa { box-shadow: 0 0 0 2px var(--gold) !important; }
 
+    /* badge de línea modificada */
+    .linea-badge {
+      display: inline-block;
+      font-size: 10px; font-weight: 700;
+      padding: 1px 6px; border-radius: 3px;
+      margin-right: 6px; vertical-align: middle;
+      font-family: 'Inter', sans-serif;
+    }
+    .badge-incorporar { background: rgba(30,125,79,0.15); color: var(--ok); }
+    .badge-reescribir { background: rgba(66,68,168,0.15); color: var(--b3); }
+
+    /* historial en panel */
+    .np-historial {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      background: var(--bg);
+    }
+    .np-hist-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+    .np-hist-texto {
+      font-family: 'Courier Prime', monospace;
+      font-size: 13px; line-height: 1.65; padding: 8px 10px;
+      border-radius: 6px; border: 1px solid var(--line);
+    }
+    .np-hist-anterior { background: rgba(201,67,95,0.05); color: var(--muted); text-decoration: line-through; }
+    .np-hist-actual   { background: rgba(30,125,79,0.06); color: var(--ink); border-color: rgba(30,125,79,0.2); }
+
     .linea-add-btn {
       position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
       width: 22px; height: 22px; border-radius: 50%;
@@ -682,6 +708,7 @@ Pies. Mesas. Vasos. Superficies.
       tipo:      n.tipo,
       razon:     n.razon,
       propuesto: n.texto_propuesto || '',
+      corregido: n.texto_corregido || '',
       estado:    n.estado || 'pendiente',
       fecha:     n.created_at
                    ? new Date(n.created_at).toLocaleDateString('es-MX', {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'})
@@ -827,23 +854,58 @@ Pies. Mesas. Vasos. Superficies.
 
   async function guardarCorreccion() {
     if (!notaEnRevision) return;
-    const corregido = document.getElementById('mcTextoCorregido').value.trim();
+    const corregido  = document.getElementById('mcTextoCorregido').value.trim();
     const { id, estadoDestino } = notaEnRevision;
 
+    /* actualizar nota en memoria */
     notas = notas.map(n => n.id === id ? { ...n, estado: estadoDestino, corregido } : n);
     guardarLocal(notas);
+
+    /* actualizar texto en el DOM si hay corrección */
+    if (corregido) {
+      const nota   = notas.find(n => n.id === id);
+      const lineaEl = nota && document.querySelector(`[data-id="${nota.linea_id}"]`);
+      if (lineaEl) {
+        /* guardar original si no está guardado */
+        if (!lineaEl.dataset.original) {
+          lineaEl.dataset.original = lineaEl.textContent.replace('+','').trim();
+        }
+        /* actualizar texto visible */
+        const badge = `<span class="linea-badge badge-${estadoDestino}">✎</span>`;
+        lineaEl.innerHTML = badge + corregido +
+          '<button class="linea-add-btn" onclick="abrirModal(this)">+</button>';
+      }
+    }
+
     actualizarLineas();
     renderNotas();
     cerrarCorreccion();
 
+    /* sincronizar Supabase */
     try {
       await fetch(`${SUPABASE_URL}/rest/v1/notas?id=eq.${id}`, {
         method: 'PATCH', headers: SB_HEADERS,
-        body: JSON.stringify({ estado: estadoDestino, texto_propuesto: corregido || undefined })
+        body: JSON.stringify({ estado: estadoDestino, texto_corregido: corregido })
       });
     } catch(e) {}
 
-    mostrarToast(estadoDestino === 'reescribir' ? '✏ Guardada para reescribir' : '✓ Corrección guardada');
+    mostrarToast(estadoDestino === 'reescribir' ? '✏ Línea marcada para reescribir' : '✓ Línea actualizada en el guión');
+  }
+
+  /* re-aplica correcciones al DOM al cargar la página */
+  function aplicarCorrecciones() {
+    notas.forEach(n => {
+      if (!n.corregido) return;
+      if (n.estado !== 'incorporar' && n.estado !== 'reescribir') return;
+      const lineaEl = document.querySelector(`[data-id="${n.linea_id}"]`);
+      if (!lineaEl) return;
+      if (!lineaEl.dataset.original) {
+        lineaEl.dataset.original = lineaEl.textContent.replace('+','').trim();
+      }
+      const badge = `<span class="linea-badge badge-${n.estado}">✎</span>`;
+      lineaEl.innerHTML = badge + n.corregido +
+        '<button class="linea-add-btn" onclick="abrirModal(this)">+</button>';
+    });
   }
 
   /* ── CAMBIAR ESTADO (solo No aplica, sin corrección) ── */
@@ -909,7 +971,24 @@ Pies. Mesas. Vasos. Superficies.
 
     const estadoLabel = { pendiente:'🟡 Pendiente', reescribir:'🔵 Por reescribir', incorporar:'🟢 Por incorporar', rechazado:'⚫ No aplica' };
 
-    lista.innerHTML = visibles.map(n => `
+    /* historial de versiones si hay línea filtrada y fue modificada */
+    let historialHTML = '';
+    if (filtroLinea) {
+      const lineaEl = document.querySelector(`[data-id="${filtroLinea}"]`);
+      const original = lineaEl && lineaEl.dataset.original;
+      const actual   = lineaEl && lineaEl.textContent.replace('+','').trim();
+      if (original && original !== actual) {
+        historialHTML = `
+          <div class="np-historial">
+            <div class="np-hist-label" style="color:var(--muted);">Versión anterior</div>
+            <div class="np-hist-texto np-hist-anterior" style="margin-bottom:8px;">${original}</div>
+            <div class="np-hist-label" style="color:var(--ok);">Versión actual</div>
+            <div class="np-hist-texto np-hist-actual">${actual}</div>
+          </div>`;
+      }
+    }
+
+    lista.innerHTML = historialHTML + visibles.map(n => `
       <div class="np-nota" onclick="verLinea('${n.linea_id}')" style="cursor:pointer;">
         <div class="np-nota-head">
           <span class="np-autor autor-${n.autor}">${n.autor}</span>
@@ -984,7 +1063,7 @@ Pies. Mesas. Vasos. Superficies.
   }
 
   /* ── INIT ── */
-  cargarNotas().then(() => actualizarLineas());
+  cargarNotas().then(() => { aplicarCorrecciones(); actualizarLineas(); });
 </script>
 </body>
 </html>
