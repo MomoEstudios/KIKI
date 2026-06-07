@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIKI — Guión</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:   #F9F7F2;
+      --ink:  #1A1814;
+      --muted:#6B6760;
+      --line: #E4E1D8;
+      --b1:   #C9435F;
+      --b2:   #257A56;
+      --b3:   #4244A8;
+      --b4:   #8E32B0;
+      --gold: #A8780F;
+      --ok:   #1E7D4F;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px; line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(249,247,242,0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      padding: 0 24px; height: 48px;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .nav-brand { font-family:'Playfair Display',serif; font-weight:900; font-size:16px; color:var(--ink); margin-right:auto; }
+    .nav-brand em { font-style:italic; color:var(--gold); }
+    nav a { font-size:12px; font-weight:500; color:var(--muted); text-decoration:none; padding:4px 10px; border-radius:6px; transition:background .15s,color .15s; white-space:nowrap; }
+    nav a:hover { background:var(--line); color:var(--ink); }
+    @media(max-width:560px){ nav a { display:none; } }
+
+    /* ── PORTADA ── */
+    .portada {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: flex-end; align-items: center;
+      text-align: center; padding: 0 24px 60px;
+      border-bottom: 1px solid var(--line);
+      position: relative; overflow: hidden;
+    }
+    .portada-img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center top; }
+    .portada-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(249,247,242,0) 0%, rgba(249,247,242,0.1) 40%, rgba(249,247,242,0.85) 70%, rgba(249,247,242,1) 100%);
+    }
+    .portada-content { position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; }
+    .portada-eyebrow { font-size:11px; font-weight:600; letter-spacing:0.16em; text-transform:uppercase; color:var(--gold); margin-bottom:16px; }
+    .portada h1 { font-family:'Playfair Display',serif; font-size:clamp(80px,18vw,180px); font-weight:900; line-height:0.88; color:var(--ink); margin-bottom:16px; }
+    .portada h1 em { font-style:italic; color:var(--gold); }
+    .portada-sub { font-size:15px; color:var(--muted); margin-bottom:32px; line-height:1.7; }
+    .portada-meta { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:48px; }
+    .pmeta { background:white; border:1px solid var(--line); border-radius:8px; padding:8px 16px; font-size:13px; color:var(--muted); }
+    .pmeta strong { color:var(--ink); font-weight:600; margin-right:4px; }
+    .portada-bloques { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
+    .pb { padding:6px 14px; border-radius:100px; font-size:12px; font-weight:600; border:1px solid; text-decoration:none; }
+    .pb1 { background:rgba(201,67,95,0.08); border-color:rgba(201,67,95,0.25); color:var(--b1); }
+    .pb2 { background:rgba(37,122,86,0.08); border-color:rgba(37,122,86,0.25); color:var(--b2); }
+    .pb3 { background:rgba(66,68,168,0.08); border-color:rgba(66,68,168,0.25); color:var(--b3); }
+    .pb4 { background:rgba(142,50,176,0.08); border-color:rgba(142,50,176,0.25); color:var(--b4); }
+
+    /* ── GUIÓN ── */
+    .guion { max-width: 860px; margin: 0 auto; padding: 0 48px 120px; }
+    @media(max-width:640px){ .guion { padding: 0 20px 80px; } }
+
+    /* ── BLOQUES ── */
+    .bloque-section { padding-top: 80px; }
+    .bloque-header { display:flex; align-items:flex-start; gap:16px; padding-bottom:24px; border-bottom:2px solid; margin-bottom:44px; }
+    .bh-stripe { width:4px; border-radius:4px; align-self:stretch; min-height:44px; flex-shrink:0; }
+    .bh-num { font-size:10px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; margin-bottom:3px; }
+    .bh-titulo { font-family:'Playfair Display',serif; font-size:30px; font-weight:700; line-height:1.15; }
+    .bh-sensor { margin-left:auto; text-align:right; flex-shrink:0; }
+    .bh-emoji { font-size:26px; display:block; }
+    .bh-sentido { font-size:10px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); }
+    .bh-valor { font-size:12px; font-weight:500; color:var(--ink); }
+    .b1 .bh-stripe{background:var(--b1)} .b1 .bloque-header{border-color:rgba(201,67,95,0.15)} .b1 .bh-num{color:var(--b1)}
+    .b2 .bh-stripe{background:var(--b2)} .b2 .bloque-header{border-color:rgba(37,122,86,0.15)} .b2 .bh-num{color:var(--b2)}
+    .b3 .bh-stripe{background:var(--b3)} .b3 .bloque-header{border-color:rgba(66,68,168,0.15)} .b3 .bh-num{color:var(--b3)}
+    .b4 .bh-stripe{background:var(--b4)} .b4 .bloque-header{border-color:rgba(142,50,176,0.15)} .b4 .bh-num{color:var(--b4)}
+    .bp .bh-stripe{background:var(--gold)} .bp .bloque-header{border-color:rgba(168,120,15,0.15)} .bp .bh-num{color:var(--gold)}
+
+    /* ── CAPAS ── */
+    .capa-label { display:inline-flex; align-items:center; gap:6px; font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:12px; padding:3px 9px; border-radius:4px; }
+    .capa-cine  { background:rgba(26,24,20,0.06); color:var(--ink); }
+    .capa-coreo { background:rgba(66,68,168,0.08); color:var(--b3); }
+    .capa-foto  { background:rgba(142,50,176,0.08); color:var(--b4); }
+    .capa-proy  { background:rgba(37,122,86,0.08); color:var(--b2); }
+    .capa-trans { background:rgba(168,120,15,0.08); color:var(--gold); }
+
+    /* ── ESCENA ── */
+    .escena { margin-bottom: 44px; }
+    .escena-slug { font-family:'Courier Prime',monospace; font-size:13px; font-weight:700; text-transform:uppercase; color:var(--ink); margin-bottom:16px; padding-bottom:10px; border-bottom:1px solid var(--line); letter-spacing:0.04em; }
+
+    .linea {
+      font-family: 'Courier Prime', monospace;
+      font-size: 15px; color: var(--ink); line-height: 2;
+      margin-bottom: 4px; padding: 8px 14px;
+      border-radius: 6px;
+    }
+    .linea em { font-style:italic; color:var(--muted); }
+    .linea strong { font-weight:700; }
+
+    .foto-list { list-style:none; display:flex; flex-direction:column; gap:8px; margin-top:8px; padding-left:14px; }
+    .foto-list li { font-family:'Courier Prime',monospace; font-size:15px; color:var(--ink); display:flex; gap:12px; line-height:1.75; }
+    .foto-list li::before { content:'—'; color:var(--muted); flex-shrink:0; }
+
+    .proyeccion { border-radius:10px; padding:24px 28px; font-family:'Courier Prime',monospace; font-size:15px; line-height:1.9; margin:8px 0; color:white; }
+    .proyeccion em { color:rgba(255,255,255,0.5); font-style:italic; }
+
+    .nota-prod { background:white; border:1px solid var(--line); border-left:3px solid var(--gold); border-radius:0 8px 8px 0; padding:12px 16px; margin:20px 0; font-size:13px; color:var(--muted); line-height:1.65; }
+    .nota-prod strong { color:var(--ink); font-weight:600; }
+
+    .bloque-div { border:none; border-top:1px solid var(--line); margin:0; }
+    .wip-block { background:rgba(201,67,95,0.04); border:1px dashed rgba(201,67,95,0.25); border-radius:10px; padding:24px; text-align:center; color:var(--muted); font-size:14px; font-style:italic; margin-top:8px; }
+
+    /* footer */
+    footer { text-align:center; padding:36px 24px; background:var(--ink); color:rgba(255,255,255,0.35); margin-top:80px; }
+    footer .ft { font-family:'Playfair Display',serif; font-size:18px; font-weight:900; color:white; display:block; margin-bottom:5px; }
+    footer .ft em { font-style:italic; color:var(--gold); }
+    footer small { font-size:12px; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">KI<em>KI</em> — Guión</div>
+  <a href="#b1">Bloque 1</a>
+  <a href="#b2">Bloque 2</a>
+  <a href="#b3">Bloque 3</a>
+  <a href="#b4">Bloque 4</a>
+</nav>
+
+<!-- PORTADA -->
+<div class="portada">
+  <img src="img/portada kiki.webp" alt="KIKI" class="portada-img">
+  <div class="portada-overlay"></div>
+  <div class="portada-content">
+    <div class="portada-eyebrow">Nébula Proyecto Artístico — Guión</div>
+    <h1>KI<em>KI</em></h1>
+    <p class="portada-sub">Producción interdisciplinaria e inmersiva<br>Música · Danza · Cine · Fotografía<br>Dirección: Lina Lorenzo</p>
+    <div class="portada-meta">
+      <div class="pmeta"><strong>Duración</strong> 60 min</div>
+      <div class="pmeta"><strong>Público</strong> 15+</div>
+      <div class="pmeta"><strong>Pre-Estreno</strong> Café literario</div>
+      <div class="pmeta"><strong>Versión</strong> Junio 2026</div>
+    </div>
+    <div class="portada-bloques">
+      <a href="#b1" class="pb pb1">01 · ¿Quién es Kiki?</a>
+      <a href="#b2" class="pb pb2">02 · La ciudad</a>
+      <a href="#b3" class="pb pb3">03 · Portal</a>
+      <a href="#b4" class="pb pb4">04 · Mundo paralelo</a>
+    </div>
+  </div>
+</div>
+
+<div class="guion">
+
+  <!-- PRÓLOGO -->
+  <div class="bloque-section bp" id="prologo">
+    <div class="bloque-header">
+      <div class="bh-stripe"></div>
+      <div><div class="bh-num">Prólogo</div><div class="bh-titulo">Inicio</div></div>
+    </div>
+    <div class="escena">
+      <div class="capa-label capa-cine">🎬 Escenario</div>
+      <div class="linea">La baterista abre el escenario en solitario. Un solo de batería.</div>
+      <div class="linea">Mientras toca, el elenco completo va tomando su lugar en escena — uno a uno, presentándose ante el público.</div>
+      <div class="linea">El escenario se llena. El universo despierta.</div>
+      <div class="linea"><em>Esta es la invitación al público a sumergirse en lo que está por venir.</em></div>
+    </div>
+  </div>
+
+  <hr class="bloque-div">
+
+  <!-- BLOQUE 1 -->
+  <div class="bloque-section b1" id="b1">
+    <div class="bloque-header">
+      <div class="bh-stripe"></div>
+      <div><div class="bh-num">Bloque 01</div><div class="bh-titulo">¿Quién es Kiki?</div></div>
+      <div class="bh-sensor"><span class="bh-emoji">🌹</span><span class="bh-sentido">Olfato</span><span class="bh-valor">Rosas</span></div>
+    </div>
+
+    <div class="escena">
+      <div class="capa-label capa-cine">🎬 Cinematográfico</div>
+      <div class="escena-slug">INT. CASA DE KIKI — TARDE</div>
+      <div class="linea">Un cuadro cuelga en la pared de la entrada. Pintado a mano. En la esquina inferior, una firma.</div>
+      <div class="linea">Debajo del cuadro, un florero. Una flor adentro — marchita.</div>
+      <div class="linea">Kiki abre la puerta. Entra cargando cosas del trabajo. Al dejarlas en el mueble, su brazo roza el cuadro. Se ladea.</div>
+      <div class="linea">Kiki lo endereza de manera automática — y en ese gesto lo ve.</div>
+      <div class="linea">La mitad izquierda descolorida. Años de sol. Nadie lo había notado.</div>
+      <div class="linea">Se aleja un paso. Mira la firma en la esquina.</div>
+      <div class="linea"><em>Un momento.</em></div>
+      <div class="linea">Su teléfono vibra. Contesta. Toma sus cosas y sale apresurada.</div>
+      <div class="linea">El cuadro se queda torcido.</div>
+    </div>
+
+    <div class="escena">
+      <div class="escena-slug">INT. CASA DE KIKI — MÁS TARDE</div>
+      <div class="linea">La puerta se abre. Kiki entra. En la mano trae una flor.</div>
+      <div class="linea">La deja en el mueble. Se queda parada frente al cuadro torcido. Lo acomoda.</div>
+      <div class="linea">La cámara se desplaza — deja la puerta atrás, se centra en el cuadro.</div>
+      <div class="linea">Kiki regresa al mueble. Toma la flor. Se agacha hacia el florero. Saca la flor marchita. La sostiene un momento.</div>
+      <div class="linea">La cambia por la flor nueva. Da un paso atrás.</div>
+      <div class="linea">El cuadro acomodado. El florero con la flor fresca. La firma en la esquina.</div>
+    </div>
+
+    <div class="escena">
+      <div class="capa-label" style="background:rgba(201,67,95,0.08);color:var(--b1);">🌹 Elemento inmersivo</div>
+      <div class="proyeccion" style="background:rgba(201,67,95,0.92);">Proyección: pétalos y flores de rosa.
+
+Aroma de rosas se integra al ambiente del espacio escénico.
+
+<em>El público no recibe elemento físico — el detonante es el olfato activado en el entorno.</em></div>
+    </div>
+
+    <div class="escena">
+      <div class="capa-label capa-trans">↝ Transición</div>
+      <div class="linea">Fotografías del cuadro. Del florero. De la firma. De la flor marchita en su mano.</div>
+      <div class="linea">Imágenes que mutan hacia el estilo cómic — el mundo real se convierte en ilustración.</div>
+    </div>
+
+    <div class="nota-prod"><strong>Nota:</strong> El cuadro fue pintado por la mamá de Kiki. La firma no se explica en escena — el público la descubre al final. La mitad descolorida anticipa visualmente el mundo paralelo del Bloque 4.</div>
+  </div>
+
+  <hr class="bloque-div">
+
+  <!-- BLOQUE 2 -->
+  <div class="bloque-section b2" id="b2">
+    <div class="bloque-header">
+      <div class="bh-stripe"></div>
+      <div><div class="bh-num">Bloque 02</div><div class="bh-titulo">La ciudad y un guía espiritual</div></div>
+      <div class="bh-sensor"><span class="bh-emoji">🍵</span><span class="bh-sentido">Gusto</span><span class="bh-valor">Té verde</span></div>
+    </div>
+
+    <div class="escena">
+      <div class="capa-label capa-cine">🎬 Cinematográfico</div>
+      <div class="escena-slug">EXT/INT. LA CHINESCA — RESTAURANTES — DÍA</div>
+      <div class="linea">Una hilera de restaurantes con la misma fachada. Puertas que se abren y cierran.</div>
+      <div class="linea">Kiki entra por una. Sale por otra. Entra por una. Sale por otra.</div>
+      <div class="linea">Su jefe aparece en el umbral — le carga los brazos con más cosas. Ella los toma sin detenerse.</div>
+      <div class="linea">En ese vaivén, al cruzar una puerta, aparece el cocinero chino. Kiki pasa de largo. Él no dice nada.</div>
+      <div class="linea">Cruza otra puerta. El cocinero está ahí de nuevo.</div>
+      <div class="linea"><em>No es el mismo restaurante. Es el mismo hombre.</em></div>
+    </div>
+
+    <div class="escena">
+      <div class="escena-slug">INT. COCINA — CONTINUO</div>
+      <div class="linea">Toma desde el interior. En el lado izquierdo del cuadro: el cocinero, de pie, en silencio.</div>
+      <div class="linea">La puerta del lado derecho se abre. Entra Kiki. Deja sus cosas sobre la mesa sin mirar.</div>
+      <div class="linea">El cocinero tiene dos vasos frente a él — uno en cada mano. Se los ofrece.</div>
+      <div class="linea">Kiki señala los dos con la mano.</div>
+      <div class="linea">El cocinero niega con la cabeza. Despacio. <em>Este. O este.</em></div>
+      <div class="linea">Kiki señala uno. El cocinero se lo da. Recoge el otro. Sale de cuadro.</div>
+      <div class="linea">Kiki le da un trago al vaso. Se para frente a la puerta. Da la espalda a la cámara. Se queda quieta.</div>
+      <div class="linea"><em>Fade a negro.</em></div>
+    </div>
+
+    <div class="escena">
+      <div class="capa-label capa-proy">📽️ Proyección</div>
+      <div class="proyeccion" style="background:rgba(37,122,86,0.9);">Agua verde. El color del té. Lenta, moviéndose.</div>
+    </div>
+
+    <div class="escena">
+      <div class="capa-label capa-coreo">💃 Coreografía — Escenario</div>
+      <div class="linea">Kiki voltea hacia el dragón. Su cuerpo lo enfrenta pero su postura lo resiste — no hay rendición, hay conflicto.</div>
+    </div>
+
+    <div class="escena">
+      <div class="capa-label capa-foto">📷 Foto fija</div>
+      <ul class="foto-list">
+        <li>Kiki de frente al dragón, contrariada, sin resolver</li>
+        <li>Kiki de espaldas mirando al dragón</li>
+        <li>Detalle: un cigarro consumiéndose — solo el humo y la brasa</li>
+        <li>El vaso de té verde sobre la mesa de la cocina</li>
+      </ul>
+    </div>
+
+    <div class="nota-prod"><strong>Nota:</strong> La frase del cocinero — <em>"No puedes guiar el viento, pero puedes cambiar la dirección de tus velas"</em> — se comunica con el gesto de los dos vasos, no con diálogo.</div>
+  </div>
+
+  <hr class="bloque-div">
+
+  <!-- BLOQUE 3 -->
+  <div class="bloque-section b3" id="b3">
+    <div class="bloque-header">
+      <div class="bh-stripe"></div>
+      <div><div class="bh-num">Bloque 03</div><div class="bh-titulo">Portal</div></div>
+      <div class="bh-sensor"><span class="bh-emoji">🏜️</span><span class="bh-sentido">Tacto</span><span class="bh-valor">Arena de La Salada</span></div>
+    </div>
+
+    <div class="escena">
+      <div class="capa-label capa-cine">🎬 Cinematográfico</div>
+      <div class="escena-slug">INT. BAR — NOCHE</div>
+      <div class="linea">Kiki en una mesa, sola. Tiene una michelada frente a ella.</div>
+      <div class="linea">Es su día libre. Escucha la música. Bebe despacio.</div>
+      <div class="linea">La pantalla de su teléfono se enciende. Kiki lo lee. Lo deja boca abajo sobre la mesa.</div>
+      <div class="linea">La pantalla se enciende de nuevo: <em>"Ya sé que es tu día de descanso pero me urge que me apoyes con lo que te pedí."</em></div>
+      <div class="linea">Llamadas entrantes — una, dos, tres. La pantalla no para de encenderse.</div>
+      <div class="linea">Kiki la ve encenderse. No contesta.</div>
+    </div>
+
+    <div class="escena">
+      <div class="escena-slug">INT. BAR — CONTINUO</div>
+      <div class="linea">Kiki levanta la vista hacia la rocola. Un álbum: diseño de desierto — arena, horizonte, luz baja.</div>
+      <div class="linea">El nombre del álbum: <strong>NÉBULA.</strong></div>
+      <div class="linea">Kiki se queda quieta mirándolo. La canción empieza a sonar.</div>
+      <div class="linea"><em>Fade a fotografías.</em></div>
+    </div>
+
+    <div class="escena">
+      <div class="capa-label" style="background:rgba(66,68,168,0.08);color:var(--b3);">🏜️ Elemento inmersivo</div>
+      <div class="proyeccion" style="background:rgba(66,68,168,0.88);">Detalles y elementos del bar.
+
+Pies. Mesas. Vasos. Superficies.
+
+<em>El desierto se empieza a filtrar en el espacio del bar.</em></div>
+    </div>
+
+    <div class="escena">
+      <div class="capa-label capa-foto">📷 Foto fija</div>
+      <ul class="foto-list">
+        <li>Kiki iluminada por la luz de la rocola</li>
+        <li>La cerveza casi llena — dejó de beber cuando vio el álbum</li>
+        <li>El teléfono encendido con el mensaje del jefe</li>
+        <li>Letrero de salida del bar</li>
+        <li>La michelada sobre la mesa</li>
+      </ul>
+    </div>
+
+    <div class="escena">
+      <div class="capa-label capa-coreo">💃 Apoyo de coreografía</div>
+      <div class="linea">Mientras suena la canción Nébula — entra coreografía de apoyo en tema desierto.</div>
+      <div class="linea">El desierto se filtra en el espacio del bar.</div>
+    </div>
+  </div>
+
+  <hr class="bloque-div">
+
+  <!-- BLOQUE 4 -->
+  <div class="bloque-section b4" id="b4">
+    <div class="bloque-header">
+      <div class="bh-stripe"></div>
+      <div><div class="bh-num">Bloque 04</div><div class="bh-titulo">Un mundo paralelo</div></div>
+      <div class="bh-sensor"><span class="bh-emoji">🍭</span><span class="bh-sentido">Gusto</span><span class="bh-valor">Paleta glitter rosa</span></div>
+    </div>
+    <div class="wip-block">En desarrollo — próxima sesión del equipo</div>
+  </div>
+
+</div>
+
+<footer>
+  <span class="ft">KI<em>KI</em></span>
+  Nébula Proyecto Artístico · Dirección: Lina Lorenzo<br>
+  <small style="margin-top:6px;display:block;">Versión junio 2026 — Solo lectura</small>
+</footer>
+
+</body>
+</html>
