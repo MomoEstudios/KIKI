@@ -15,20 +15,20 @@
       --ink:   #1A1814;
       --muted: #6B6760;
       --line:  #E4E1D8;
-      --b1:    #C9435F;
+      --b1:    #d85685;
       --b2:    #257A56;
-      --b3:    #4244A8;
+      --b3:    #3d4269;
       --b4:    #8E32B0;
-      --gold:  #A8780F;
-      --ok:    #1E7D4F;
-      --warn:  #B85C00;
+      --gold:  #d85685;
+      --ok:    #2E9E71;
+      --warn:  #d85685;
 
       /* colores por autor */
-      --lina:   #C9435F;
-      --murillo:#4244A8;
+      --lina:   #d85685;
+      --murillo:#3d4269;
       --german: #257A56;
       --seled:  #8E32B0;
-      --alan:   #A8780F;
+      --alan:   #d85685;
     }
     html { scroll-behavior: smooth; }
     body {
@@ -342,7 +342,7 @@
     .toast.show { transform: translateX(-50%) translateY(0); }
 
     /* footer */
-    footer { text-align:center; padding:36px 24px; background:var(--ink); color:rgba(255,255,255,0.35); margin-top:80px; }
+    footer { text-align:center; padding:36px 24px; background:#000000; color:rgba(255,255,255,0.35); margin-top:80px; }
     footer .ft { font-family:'Playfair Display',serif; font-size:18px; font-weight:900; color:white; display:block; margin-bottom:5px; }
     footer .ft em { font-style:italic; color:var(--gold); }
     footer small { font-size:12px; }
@@ -439,6 +439,7 @@
   <a href="#b2">Bloque 2</a>
   <a href="#b3">Bloque 3</a>
   <a href="#b4">Bloque 4</a>
+  <a href="guion-kiki.html" style="color:var(--muted);font-size:12px;font-weight:500;text-decoration:none;padding:4px 10px;border-radius:6px;border:1px solid var(--line);" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--muted)'">Lectura ↗</a>
   <button class="nav-modo-btn" id="btnModo" onclick="toggleModo()">Modo aprobador</button>
 </nav>
 
