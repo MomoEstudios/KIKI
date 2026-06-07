@@ -652,7 +652,7 @@ Pies. Mesas. Vasos. Superficies.
       </div>
     </div>
     <div class="np-lista" id="notasLista">
-      <div class="np-empty" id="npEmpty">Sin notas todavía.<br>Haz clic en <strong>+</strong> en cualquier línea.</div>
+      <div class="np-empty">Cargando notas...</div>
     </div>
   </div>
 </div>
@@ -697,7 +697,7 @@ Pies. Mesas. Vasos. Superficies.
   async function cargarNotas() {
     let cargado = false;
     try {
-      const res = await fetch(`${SUPABASE_URL}/rest/v1/notas?order=created_at.asc`, { headers: SB_HEADERS });
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/notas?order=id.asc`, { headers: SB_HEADERS });
       if (res.ok) {
         const data = await res.json();
         notas = data.map(parsearNota);
@@ -892,7 +892,6 @@ Pies. Mesas. Vasos. Superficies.
   /* ── RENDER NOTAS ── */
   function renderNotas() {
     const lista  = document.getElementById('notasLista');
-    const empty  = document.getElementById('npEmpty');
     const count  = document.getElementById('notasCount');
 
     let visibles = notas.filter(n => n.estado !== 'rechazado');
@@ -901,15 +900,12 @@ Pies. Mesas. Vasos. Superficies.
     count.textContent = `${visibles.length} nota${visibles.length !== 1 ? 's' : ''}`;
 
     if (visibles.length === 0) {
-      lista.innerHTML = '';
-      lista.appendChild(empty);
-      empty.style.display = '';
-      empty.innerHTML = filtroLinea
+      const msg = filtroLinea
         ? 'Sin notas en esta línea.<br>Haz clic en <strong>+</strong> para agregar.'
         : 'Sin notas todavía.<br>Haz clic en <strong>+</strong> en cualquier línea.';
+      lista.innerHTML = `<div class="np-empty">${msg}</div>`;
       return;
     }
-    empty.style.display = 'none';
 
     const estadoLabel = { pendiente:'🟡 Pendiente', reescribir:'🔵 Por reescribir', incorporar:'🟢 Por incorporar', rechazado:'⚫ No aplica' };
 
